@@ -1,0 +1,64 @@
+---
+title: ショーケース
+description: SAuthBase を活用したプロジェクトを探索し、 認証ツールから JavaScript リソースまで、この強力な Scratch Auth SDK を使用して構築された多様な Web サイトやアプリケーションをご覧ください。
+---
+
+import { cloneElement } from "react";
+import { Button, Cards, Image } from "nextra/components";
+
+# ショーケース
+
+SAuthBase SDK を利用したプロジェクト
+
+{/* prettier-ignore */}
+<Cards>
+<>[![Demo](https://repository-images.githubusercontent.com/988450307/122a4622-0fd7-4a94-b61c-996810d07306)](https://github.com/scratchcore/sauthbase)</>
+</Cards>
+
+<div className="mt-12 text-center">
+  <Button
+    className="mt-3 inline-block !px-6 hover:!no-underline"
+    variant="outline"
+    href="https://github.com/scratchcore/sauthbase/issues"
+    as="a"
+    target="_blank"
+    rel="noreferrer"
+  >
+    {"自分のプロジェクトの記載を希望する"}
+  </Button>
+</div>
+
+
+export default function MdxLayout(props) {
+  return cloneElement(props.children, {
+    components: {
+      img: props => (
+        <Image {...props} className="object-cover [aspect-ratio:12/6.3]" />
+      ),
+      a({ children, href }) {
+        const { alt } = children.props
+        return (
+          <Cards.Card
+            href={href}
+            title={alt.replace(/ preview$/i, '')}
+            target="_blank"
+            rel="noreferrer"
+            arrow
+            className="!no-underline"
+          >
+            {children}
+          </Cards.Card>
+        )
+      },
+      p(props) {
+        return (
+          <p
+            {...props}
+            className="mb-16 mt-4 text-center text-lg text-gray-600 dark:text-gray-400"
+          />
+        )
+      }
+    }
+  })
+
+}

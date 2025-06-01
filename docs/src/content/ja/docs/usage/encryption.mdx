@@ -1,0 +1,104 @@
+---
+title: 暗号処理
+description: セッションIDやユーザー名の安全なやり取りのために、SAuthBase の暗号化・復号・HMAC 機能を使用する方法を説明します。
+---
+
+import { Callout } from 'nextra/components';
+import { IconLock } from '@tabler/icons-react';
+
+# 暗号処理
+
+SAuthBase SDK には、HMAC、AES-GCM 暗号化、および復号化のための機能が用意されています。  
+セッションIDやアカウント情報などのデータを安全に扱うために活用できます。
+
+---
+
+## HMACの計算
+
+データの改ざん検知やトークン生成の検証などに使用できます。
+
+```ts filename="src/index.ts" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+const sab = sauthbase.use();
+// ---cut---
+const result = sab.calculateHmac("example");
+console.log(result.data); // 16進数のハッシュ
+```
+
+---
+
+## データの暗号化
+
+AES-256-GCM を用いてデータを暗号化できます。
+
+```ts filename="src/index.ts" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+const sab = sauthbase.use();
+// ---cut---
+const encrypted = sab.encrypt("username|hmac");
+console.log(encrypted.data); // iv:encrypted:authTag の形式
+```
+
+- 成功時は文字列形式で暗号化されたデータが返ります。
+- 複合化との組み合わせで安全なやり取りが可能です。
+
+---
+
+## データの復号
+
+暗号化された文字列を復号して元のデータに戻します。
+
+```ts filename="src/index.ts" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+const sab = sauthbase.use();
+const encrypted = sab.encrypt("username|hmac");
+// ---cut---
+const decrypted = sab.decrypt(encrypted.data);
+console.log(decrypted.data); // 元の username|hmac
+```
+
+- 暗号フォーマットが不正な場合は失敗します。
+- 認証トークンなどの中身を検証する際に使用します。
+
+---
+
+## 応用：ユーザー名から暗号トークンを生成
+
+`generateEncryptedToken()` を使用すると、ユーザー名を HMAC とともに暗号化できます。
+
+```ts filename="src/index.ts" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+const sab = sauthbase.use();
+// ---cut---
+const token = await sab.generateEncryptedToken("exampleUser");
+console.log(token.data); // 復号して検証可能な安全なトークン
+```
+
+---
+
+## 応用：暗号トークンからセッションID・ユーザー名を抽出
+
+```ts filename="src/index.ts" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+const sab = sauthbase.use();
+const token = await sab.generateEncryptedToken("exampleUser");
+// ---cut---
+const sessionId = await sab.extractUserWithVerify(token.data);
+const username = sab.extractUserUnsafe(token.data);
+```
+
+- `extractUserWithVerify()` は HMAC チェックも含みます
+- `extractUserUnsafe()` はユーザー名だけを抽出します（検証なし）
+
+---
+
+<Callout type="info">
+  `calculateHmac()` は暗号化後の改ざん防止、`encrypt()`/`decrypt()` は機密保持、`extractUserWithVerify()`/`extractUserUnsafe()` はセッション連携に活用できます。
+</Callout>
+
+これで暗号処理の基本は完了です。

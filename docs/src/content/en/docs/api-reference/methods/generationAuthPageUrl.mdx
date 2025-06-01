@@ -1,0 +1,66 @@
+---
+title: generationAuthPageUrl
+description: 認証ページへのリダイレクト用URLを生成します。
+---
+
+import { OptionTable } from "@/components/_table"
+
+# generationAuthPageUrl
+
+Type: `generationAuthPageUrl(title?: string): APIResult<string>`
+
+`generationAuthPageUrl()` は、Scratch 認証のためのリダイレクトURLを生成するインスタンスメソッドです。オプションでタイトル（表示名）を指定することができます。
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const sab = sauthbase.use();
+const result = sab.generationAuthPageUrl("MyApp");
+
+if (result.success) {
+  window.location.href = result.data; // 認証ページへリダイレクト
+}
+```
+
+## 引数
+
+<OptionTable
+options={[
+  [
+    "title",
+    "string",
+    "表示するアプリケーション名"
+  ]
+]}
+/>
+
+## 戻り値
+
+- `APIResult<string>`: 認証ページへのURLが格納されたレスポンス
+
+成功時（例）:
+```json
+{
+  "code": "SUCCESS",
+  "success": true,
+  "data": "https://auth.itinerary.eu.org/auth/?redirect=..."
+}
+```
+
+失敗時（例）:
+```json
+{
+  "code": "ERROR/GENERATION",
+  "success": false,
+  "status": 500,
+  "message": "認証ページURLの生成中に予期せぬエラーが発生しました。",
+  "error": {}
+}
+```
+
+## 使用上の注意
+
+- このURLは、`init()`で指定した `redirect_url` を含む形式で生成されます。
+- リダイレクト先が正しく設定されていない場合、認証後に戻ることができません。
+- `btoa()` によるエンコードで UTF-8 に非対応な場合があるため、通常のASCII文字列を想定してください。

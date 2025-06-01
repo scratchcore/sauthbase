@@ -1,0 +1,48 @@
+---
+title: セッション管理
+---
+
+# セッション管理
+
+SAuthBase はユーザー認証後にセッションを発行し、再認証なしでユーザー情報へアクセスできる仕組みを提供します。このページでは、セッションの取り扱いについて詳しく解説します。
+
+## セッションの仕組み
+
+`verifySession()` による認証が成功すると、`token` が生成され、検証結果と共にクライアントへ返されます。
+
+```json filename="例: 認証成功時のレスポンス" showLineNumbers
+{
+  "success": true,
+  "data": {
+    "token": "*************************************",
+    "payload": {
+      "valid": true,
+      "username": "***********",
+      "type": "instant",
+      "redirect": "http://localhost:3000/auth"
+    }
+  }
+}
+```
+
+この `token` はクライアント側で安全に保存（例: Cookie や LocalStorage）し、以降のリクエストで再認証の代わりに使用されます。
+
+## 検証と復号
+
+クライアントに保存されたセッションIDは、`extractUserWithVerify` 関数で検証および復号されます。
+
+```ts filename="例: セッション検証" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase"
+
+const sab = sauthbase.use();
+const result = await sab.extractUserWithVerify(sessionId);
+```
+
+この関数はセッションIDの改ざんを検知し、無効な場合はエラーを返します。
+
+## 注意点
+
+- ユーザーセッションは他人に漏洩しないよう、安全なストレージに保存してください。
+- すべてのリクエストに毎回セッションを送信するのではなく、必要なタイミングでのみ使用してください。
+- `extractUserUnsafe` は軽量ですが検証を行わないため、セキュアな処理には `extractUserWithVerify` の使用が推奨されます。

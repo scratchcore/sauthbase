@@ -1,0 +1,90 @@
+---
+title: 型定義と構造
+description: SAuthBase で使用される主要な型定義一覧
+---
+
+# 型定義一覧
+
+`sauthbase` が提供する各種メソッドで使用される TypeScript 型定義の一覧です。
+
+## APIResult
+
+```ts
+type APIResult<T> =
+  | {
+      code: string;
+      success: true;
+      data: T;
+    }
+  | {
+      code: string;
+      success: false;
+      status: number;
+      message: string;
+      error?: unknown;
+    };
+```
+
+説明: 成功・失敗のレスポンス型。`success` フラグと合わせて `code` によってレスポンスの種類が識別可能。
+
+## sauthbaseOptions
+
+```ts
+interface sauthbaseOptions {
+  secretKey: string;
+  redirect_url: string;
+}
+```
+
+説明: `sauthbase.init()` に必要なオプション設定。
+
+## userInfoProps
+
+```ts
+interface userInfoProps {
+  id: number;
+  username: string;
+  scratchteam: boolean;
+  history: {
+    joined: string;
+  };
+  profile: {
+    id: number;
+    images: {
+      "90x90": string;
+      "60x60": string;
+      "55x55": string;
+      "50x50": string;
+      "32x32": string;
+    };
+    status: string;
+    bio: string;
+    country: string;
+  };
+};
+```
+
+説明: Scratch ユーザーの基本情報。`getUser()` で返されます。
+
+## verifySessionProps
+
+```ts
+interface verifySessionProps {
+  valid: boolean;
+  username: string;
+  redirect: string;
+}
+```
+
+説明: `verifySession()` で認証サーバーから返される検証結果の構造。
+
+## verifySessionResponse
+
+```ts
+interface verifySessionResponse {
+  token: string;
+  payload: verifySessionProps;
+}
+```
+
+説明: `verifySession()` の成功時に返されるデータ構造。

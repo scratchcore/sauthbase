@@ -1,0 +1,71 @@
+---
+title: ログインページ生成
+description: ScratchAuthBase を使用して Scratch 認証ページの URL を生成する方法を説明します。
+---
+
+import { Callout } from 'nextra/components';
+import { IconLogin } from '@tabler/icons-react';
+
+# ログインページ生成
+
+SAuthBase SDK では、`generationAuthPageUrl()` メソッドを使用することで、Scratch 認証ページへのリダイレクト URL を簡単に生成できます。
+
+この URL にユーザーをリダイレクトさせることで、Scratch アカウントによる認証が可能になります。
+
+---
+
+## 基本的な使い方
+
+```ts filename="src/index.ts" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+
+const sab = sauthbase.use();
+
+const result = sab.generationAuthPageUrl("My App");
+```
+
+このメソッドは、以下のような URL を返します：
+
+`https://auth.itinerary.eu.org/auth/?redirect=..&name=..`
+
+`redirect_url` は `init()` 時に設定した URL が使用されます。
+
+---
+
+## 実装例：ルーティングで使用
+
+```ts filename="src/index.ts" showLineNumbers twoslash
+// @noErrors
+import { Hono } from "hono";
+import { sauthbase } from "sauthbase";
+const app = new Hono();
+import { sauthbase } from "sauthbase";
+const sab = sauthbase.use();
+// ---cut---
+app.get("/login", (c) => {
+  const result = sab.generationAuthPageUrl("My App");
+  if (result.success) {
+    return c.redirect(result.data);
+  } else {
+    return c.json(result);
+  }
+});
+```
+
+このように `/login` にアクセスすることで、自動的に認証ページに遷移させることができます。
+
+---
+
+## 注意点
+
+<Callout type="info">
+  `generationAuthPageUrl()` は Base64 でリダイレクト URL をエンコードしています。改ざんを避けるため、サーバー側で生成するようにしてください。
+</Callout>
+
+- 引数の `title` は認証ページの見出しとして表示されます。設定しない場合は `"ScratchCore"` が使用されます。
+- `redirect_url` が未初期化の場合、正しく URL が生成されません。
+
+---
+
+認証が完了すると、`privateCode` を含んだリダイレクトが行われます。  

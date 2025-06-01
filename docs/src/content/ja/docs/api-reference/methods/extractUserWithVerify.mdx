@@ -1,0 +1,56 @@
+---
+title: extractUserWithVerify
+description: 暗号化トークンを復号し、HMAC検証を行ってユーザー名を安全に取得します。
+---
+
+import { OptionTable } from "@/components/_table"
+
+# extractUserWithVerify
+
+Type: `extractUserWithVerify(content?: string): Promise<APIResult<string>>`
+
+`extractUserWithVerify()` は、暗号化されたトークンからユーザー名を復号し、HMAC を使って改ざんが行われていないことを検証します。安全性を重視する場合に使用します。
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const result = await sauthbase.use().extractUserWithVerify(token);
+```
+
+## パラメータ
+
+<OptionTable
+options={[
+  [
+    "content",
+    "string",
+    "暗号化されたトークン"
+  ]
+]}
+/>
+
+## 戻り値
+
+- `Promise<APIResult<string>>`: ユーザー名を含む結果オブジェクト（成功時）またはエラー情報を含むオブジェクト（失敗時）
+
+## 使用例
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const token = "encrypted-token-example";
+const result = await sauthbase.use().extractUserWithVerify(token);
+
+if (result.success) {
+  console.log("ユーザー名:", result.data);
+} else {
+  console.error("エラー:", result.code, result.message);
+}
+```
+
+## 注意点
+
+- セキュアな用途では必ずこちらを使用してください。
+- 改ざんの検出が可能なため、トークンの信頼性を高く保てます。

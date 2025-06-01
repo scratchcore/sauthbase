@@ -1,0 +1,54 @@
+---
+title: generateEncryptedToken
+description: 指定されたユーザー名から暗号化トークンを生成します。
+---
+
+import { OptionTable } from "@/components/_table"
+
+# generateEncryptedToken
+
+Type: `generateEncryptedToken(content?: string): Promise<APIResult<string>>`
+
+`generateEncryptedToken()` は、指定された Scratch ユーザー名を元に HMAC を付与し、それを AES-GCM で暗号化したトークン文字列を生成する非同期メソッドです。
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const result = await sauthbase.use().generateEncryptedToken("exampleUser");
+```
+
+## 引数
+
+<OptionTable
+options={[
+  [
+    "content",
+    "string",
+    "暗号化対象の Scratch ユーザー名"
+  ]
+]}
+/>
+
+## 戻り値
+
+- `Promise<APIResult<string>>` — 成功時は暗号化済みのセッションID（トークン）を含むオブジェクト
+
+## 使用例
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const result = await sauthbase.use().generateEncryptedToken("KiryuToa");
+if (result.success) {
+  console.log("Encrypted token:", result.data);
+} else {
+  console.error("Error:", result.message);
+}
+```
+
+## 注意点
+
+- トークンは `extractUserWithVerify()` を用いることで復号および改ざんチェックが可能です。
+- このトークンはクライアントのローカルストレージやクッキーに保存し、後続のセッション確認等に利用されます。

@@ -1,0 +1,74 @@
+---
+title: 初期化
+description: SAuthBase SDK をプロジェクトで使用するための初期設定方法について説明します。
+---
+
+import { Callout } from 'nextra/components';
+import { IconSettings } from '@tabler/icons-react';
+
+# 初期化
+
+SAuthBase SDK を使用するには、まずアプリケーションのどこかで一度だけ `init()` メソッドを呼び出して初期化を行う必要があります。
+
+初期化には、認証に使用する `secretKey`（64文字のhex）と、認証完了後にリダイレクトされる `redirect_url` を指定します。
+
+---
+
+## 基本的な初期化
+
+```ts filename="src/index.ts" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+
+const sab = sauthbase.init({
+  secretKey: "your_64char_hex_secret_here",
+  redirect_url: "http://localhost:3000/auth"
+});
+```
+
+初期化後はどこからでも `sauthbase.use()` によって同じインスタンスにアクセスできます。
+
+```ts filename="src/index.ts" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const sab = sauthbase.use();
+const result = sab.generationAuthPageUrl();
+```
+
+---
+
+## 注意点
+
+<Callout type="warning">
+  `init()` はアプリケーション内で一度しか呼び出さないでください。再度呼び出しても無視されます。
+</Callout>
+
+- `use()` は、`init()` が呼び出される前に使うとエラーになります。
+- 初期化済みかどうかを確認するには `sauthbase.isReady()` を使えます：
+
+```ts filename="src/index.ts" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+if (!sauthbase.isReady()) {
+  sauthbase.init({
+    secretKey: process.env.SECRET_KEY!,
+    redirect_url: process.env.REDIRECT_URL!
+  });
+}
+```
+
+---
+
+## よくあるエラー
+
+| 状況                         | エラー内容                                | 解決方法                                  |
+|------------------------------|-------------------------------------------|-------------------------------------------|
+| `use()` を先に呼び出した     | `SAuthBase has not been initialized.` | `init()` を先に実行してください            |
+| `secretKey` が短い/未定義    | コンソールに警告が表示される             | 長さ64のhex文字列を使用してください        |
+| `init()` を複数回呼び出した | 初回のみ有効で、以降は無視される          | 正常です（副作用なし）                    |
+
+---
+
+これで SAuthBase SDK の初期化が完了しました。

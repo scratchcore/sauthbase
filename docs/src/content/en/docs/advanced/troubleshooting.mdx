@@ -1,0 +1,77 @@
+---
+title: トラブルシューティング
+description: このページでは、SAuthBase を使用する際に発生する可能性のある一般的なエラーとその対処法、およびすべてのレスポンスコード `code` の一覧を提供します。
+---
+
+import { OptionTable } from "@/components/_table"
+
+# トラブルシューティング
+
+このページでは、SAuthBase を使用する際に発生する可能性のある一般的なエラーとその対処法、およびすべてのレスポンスコード`code`の一覧を提供します。
+
+---
+
+## よくある問題と解決策
+
+### `SAuthBase has not been initialized.`
+
+- **原因**: `sauthbase.init()` を呼び出す前に `sauthbase.use()` を使用しようとした。
+- **解決策**: アプリ起動時に `sauthbase.init()` を呼び出してから `.use()` を利用してください。
+
+### `トークン形式が無効です。`
+
+- **原因**: `decrypt()` や `extractUserWithVerify()` に渡したトークンの形式が `iv:encrypted:authTag` の構造になっていない。
+- **解決策**: トークンが正しく生成された形式か確認し、暗号化手順を見直してください。
+
+---
+
+## レスポンスコード一覧
+
+以下は、SAuthBase SDK が返す可能性のあるレスポンスコードの一覧です。  
+`code` はレスポンスの種類を簡潔に識別できるよう分類されています。詳細な内容は `message` に記述されています。
+
+### ✅ 成功レスポンス
+
+| コード | 説明 |
+|-------|------|
+| `SUCCESS` | 操作が正常に完了しました。 |
+
+---
+
+### ❌ エラーレスポンス
+
+#### 🔧 内部処理エラー
+
+| コード | 説明 |
+|-------|------|
+| `ERROR/INTERNAL` | 一般的な内部処理エラーが発生しました。 |
+| `ERROR/INTERNAL_HMAC_CALCULATION` | HMACの計算中にエラーが発生しました。 |
+| `ERROR/INTERNAL_DECRYPTION` | 復号処理中にエラーが発生しました。 |
+| `ERROR/INTERNAL_VERIFICATION` | セッション検証中に内部エラーが発生しました。 |
+| `ERROR/INTERNAL_TOKEN_GENERATION` | トークン生成中にエラーが発生しました。 |
+| `ERROR/INTERNAL_ENCRYPTION_FAILURE` | 暗号化処理中にエラーが発生しました。 |
+| `ERROR/INTERNAL_HMAC_FAILURE` | HMAC生成に失敗しました。 |
+| `ERROR/INTERNAL_HMAC_ERROR` | HMAC関連で予期しないエラーが発生しました。 |
+
+#### ⚠️ 引数不正・欠如
+
+| コード | 説明 |
+|-------|------|
+| `ERROR/ARGUMENT_REQUIRED_SESSION` | セッション引数が必要ですが、提供されていません。 |
+| `ERROR/ARGUMENT_REQUIRED_USERNAME` | ユーザー名が必要ですが、提供されていません。 |
+| `ERROR/ARGUMENT_REQUIRED_TOKEN` | トークンが必要ですが、提供されていません。 |
+
+#### 📦 データ取得・フォーマット関連
+
+| コード | 説明 |
+|-------|------|
+| `ERROR/FETCH_FAILED` | データの取得に失敗しました。 |
+| `ERROR/FORMAT_INVALID_TOKEN` | トークンの形式が無効です。 |
+| `ERROR/DECRYPTION_FAILURE` | 復号に失敗しました。 |
+| `ERROR/HMAC_MISMATCH` | HMAC 検証に失敗しました（改ざんの可能性）。 |
+
+---
+
+## サポート
+
+問題が解決しない場合は、GitHubの[Issueページ](https://github.com/scratchcore/sauthbase/issues)にて報告してください。

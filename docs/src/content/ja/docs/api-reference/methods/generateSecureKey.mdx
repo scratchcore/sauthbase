@@ -1,0 +1,42 @@
+---
+title: generateSecureKey
+description: セキュアなランダムキー（AES-256用）を生成します。
+---
+
+# generateSecureKey
+
+Type: `generateSecureKey(): string`
+
+`generateSecureKey()` は、暗号化アルゴリズム（特に AES-256-GCM）で使用可能な、安全でランダムな秘密鍵を生成する静的メソッドです。
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const key = sauthbase.generateSecureKey();
+```
+
+## 概要
+
+- 生成されるキーは 32 バイト（256ビット）長のランダムなバイナリデータを 16進数形式に変換したものです。
+- 長さは 64 文字（hex）で、AES-256-GCM 暗号化の `secretKey` に適しています。
+
+## 戻り値
+
+- `string`: セキュアな 64 文字の 16進数キー
+
+## 使用例
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const secretKey = sauthbase.generateSecureKey();
+console.log(secretKey);
+// 出力例: '6f8c2d7e3b91ab94f3a17e2a9e8210a7d8b2f501b2374c9b0c985d3a3e812f42'
+```
+
+## 注意点
+
+- このメソッドは毎回異なるランダムなキーを生成します。生成したキーは `.env` や秘密設定ファイルに安全に保存してください。
+- 一度生成したキーは認証/復号のために一貫して使用される必要があります。

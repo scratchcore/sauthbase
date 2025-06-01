@@ -1,0 +1,59 @@
+---
+title: トークンの検証
+description: 暗号化されたトークンを検証して、ユーザー名を取得する方法を説明します。
+---
+
+# トークンの検証をする
+
+暗号化されたトークンを `extractUserWithVerify()` を呼び出す事で、トークンの正当性を確認して、ユーザー名を取得する事ができます。
+
+---
+
+## 暗号化されたトークンの検証方法
+
+```ts filename="src/index.ts" showLineNumbers twoslash
+// @noErrors
+import { Hono } from "hono";
+const app = new Hono();
+import { sauthbase } from "sauthbase";
+const sab = sauthbase.use();
+// ---cut---
+app.get("/verify", async (c) => {
+  const token = c.req.query("token");
+  const response = await sab.extractUserWithVerify(token);
+  if (response.success) {
+    return c.json(response);
+  } else {
+    return c.json(response);
+  }
+});
+```
+
+トークンが有効であれば、以下のようなレスポンスが返ってきます。
+
+```json filename="Response" showLineNumbers copy=false
+{
+  "success": true,
+  "data": "***********"
+}
+```
+
+---
+
+## 検証の内部動作
+
+`extractUserWithVerify()` は以下の条件をチェックしています：
+
+- トークンが設定されているか
+- トークンが改変されていないか
+
+全て満たされた場合のみ認証が成功と判定されます。
+
+---
+
+## エラー例と対応
+
+| エラー内容 | 原因 | 対処法 |
+|------------|------|--------|
+| トークンが指定されていません | 引数にトークンを追加していないから | 引数を追加する |
+| トークン形式が無効です | 形式無効 | トークンが改変されていないか確認 |

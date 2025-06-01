@@ -1,0 +1,44 @@
+---
+title: インスタンスメソッド一覧
+asIndexPage: true
+---
+
+import { Cards } from "nextra/components";
+import {
+  IconRocket,
+  IconPlug,
+  IconActivity,
+  IconKey,
+  IconHash,
+  IconLock,
+  IconLockOpen,
+  IconLink,
+  IconKeyOff,
+  IconCheck,
+  IconShieldCheck,
+  IconShieldX,
+  IconUser
+} from "@tabler/icons-react";
+
+# メソッド一覧
+
+このセクションでは、`sauthbase` クラスが提供する全てのメソッドについて解説します。  
+各メソッドの使用方法、引数、返り値、例外、利用シーンなどを詳細に説明しています。
+
+以下の一覧から各メソッドの詳細を参照できます：
+
+<Cards>
+  <Cards.Card href="/docs/api-reference/methods/init" title="init" icon={<IconRocket />}/>
+  <Cards.Card href="/docs/api-reference/methods/use" title="use" icon={<IconPlug />}/>
+  <Cards.Card href="/docs/api-reference/methods/isReady" title="isReady" icon={<IconActivity />}/>
+  <Cards.Card href="/docs/api-reference/methods/generateSecureKey" title="generateSecureKey" icon={<IconKey />}/>
+  <Cards.Card href="/docs/api-reference/methods/calculateHmac" title="calculateHmac" icon={<IconHash />}/>
+  <Cards.Card href="/docs/api-reference/methods/encrypt" title="encrypt" icon={<IconLock />}/>
+  <Cards.Card href="/docs/api-reference/methods/decrypt" title="decrypt" icon={<IconLockOpen />}/>
+  <Cards.Card href="/docs/api-reference/methods/generationAuthPageUrl" title="generationAuthPageUrl" icon={<IconLink />}/>
+  <Cards.Card href="/docs/api-reference/methods/generateEncryptedToken" title="generateEncryptedToken" icon={<IconKeyOff />}/>
+  <Cards.Card href="/docs/api-reference/methods/verifySession" title="verifySession" icon={<IconCheck />}/>
+  <Cards.Card href="/docs/api-reference/methods/extractUserWithVerify" title="extractUserWithVerify" icon={<IconShieldCheck />}/>
+  <Cards.Card href="/docs/api-reference/methods/extractUserUnsafe" title="extractUserUnsafe" icon={<IconShieldX />}/>
+  <Cards.Card href="/docs/api-reference/methods/getUser" title="getUser" icon={<IconUser />}/>
+</Cards>

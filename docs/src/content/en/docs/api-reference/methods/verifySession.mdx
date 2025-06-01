@@ -1,0 +1,66 @@
+---
+title: verifySession
+description: 認証されたユーザーセッションを検証し、セキュアなトークンを生成します。
+---
+
+import { OptionTable } from "@/components/_table"
+
+# verifySession
+
+Type: `verifySession(content?: string): Promise<APIResult<verifySessionResponse>>`
+
+`verifySession()` は、指定されたユーザーセッション用のトークンを検証し、リダイレクト先と一致していれば、セッションが有効であるとみなします。その後、安全な暗号化済みトークンを生成して返します。
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const result = await sauthbase.use().verifySession(token);
+
+if (result.success) {
+  console.log("認証成功:", result.data);
+} else {
+  console.error("エラー:", result.message);
+}
+```
+
+## 引数
+
+<OptionTable
+options={[
+  [
+    "token",
+    "string",
+    "認証サーバーから渡されたユーザーセッション"
+  ]
+]}
+/>
+
+## 戻り値
+
+- `Promise<APIResult<verifySessionResponse>>`: セッションの有効性とトークン生成結果を含むオブジェクト。
+  - `data.token`: 暗号化されたセッションIDトークン
+  - `data.payload`: 元のセッションに関する情報（username など）
+
+## 使用例
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const token = "取得したセッションコード";
+const response = await sauthbase.use().verifySession(token);
+
+if (response.success) {
+  const secureToken = response.data.token;
+  console.log("セキュアトークン:", secureToken);
+}
+```
+
+## エラーレスポンスコード
+
+- `ERROR/ARGUMENT_REQUIRED_SESSION`: セッションコードが渡されていない場合
+- `ERROR/INTERNAL_VERIFICATION`: 認証処理中に予期せぬエラーが発生した場合
+- `ERROR/INTERNAL_TOKEN_GENERATION`: 暗号化トークンの生成に失敗した場合
+- `ERROR/INTERNAL`: 外部認証APIとの通信に失敗した場合
+- `ERROR/FETCH_FAILED`: セッション検証結果が無効だった場合

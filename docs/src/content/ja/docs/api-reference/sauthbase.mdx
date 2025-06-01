@@ -1,0 +1,49 @@
+---
+title: sauthbase クラス
+---
+
+# sauthbase クラス
+
+`sauthbase` は SDK のメインクラスであり、すべての認証・暗号処理機能のインターフェースを提供します。
+
+## 概要
+
+- シングルトンで動作
+- `init()` で初期化、`use()` で使用
+- `secretKey` および `redirect_url` を引数に初期化
+
+## 初期化
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const sab = sauthbase.init({ secretKey: "...", redirect_url: "..." });
+```
+
+## 使用
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const sab = sauthbase.use();
+```
+
+## 主なメソッド一覧
+
+- [init()](./methods/init)
+- [use()](./methods/use)
+- [isReady()](./methods/isReady)
+- [generationAuthPageUrl()](./methods/generationAuthPageUrl)
+- [getUser()](./methods/getUser)
+- [calculateHmac()](./methods/calculateHmac)
+- [encrypt()](./methods/encrypt)
+- [decrypt()](./methods/decrypt)
+- [generateSecureKey()](./methods/generateSecureKey)
+- [generateEncryptedToken()](./methods/generateEncryptedToken)
+- [verifySession()](./methods/verifySession)
+- [extractUserWithVerify()](./methods/extractUserWithVerify)
+- [extractUserUnsafe()](./methods/extractUserUnsafe)
+
+各メソッドの詳細は [methods](./methods) セクションを参照してください。

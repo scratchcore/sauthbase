@@ -1,0 +1,7 @@
+{
+  "name": "@sauthbase/examples-monorepo",
+  "private": true,
+  "workspaces": [
+    "./*"
+  ]
+}

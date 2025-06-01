@@ -1,0 +1,54 @@
+---
+title: decrypt
+description: AES-GCM により暗号化されたトークンを復号し、元の文字列に戻します。
+---
+
+import { OptionTable } from "@/components/_table"
+
+# decrypt
+
+Type: `decrypt(content: string): APIResult<string>`
+
+`decrypt()` は、`encrypt()` により暗号化されたデータを復号し、元の平文文字列を取得するためのインスタンスメソッドです。
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const decrypted = sauthbase.use().decrypt("afbc12...:5cbb...:beef...");
+```
+
+## 引数
+
+<OptionTable
+options={[
+  [
+    "content",
+    "string",
+    "暗号化された文字列"
+  ]
+]}
+/>
+
+## 戻り値
+
+- `APIResult<string>`: 復号に成功した場合は `data` に文字列が格納されます。失敗時は `success: false` とともに `message`, `status`, `code` などが返されます。
+
+## 使用例
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const encrypted = sauthbase.use().encrypt("example text");
+if (encrypted.success) {
+  const result = sauthbase.use().decrypt(encrypted.data);
+  console.log(result.data); // "example text"
+}
+```
+
+## 注意点
+
+- 復号する値は `encrypt()` によって生成された形式である必要があります。
+- IV（初期化ベクトル）、暗号文、認証タグを「:」で連結した形式が必要です。
+- 不正な形式やタグの不一致などがあると復号に失敗します。

@@ -1,0 +1,76 @@
+{
+  "name": "sauthbase",
+  "version": "0.0.1-alpha.1",
+  "description": "Scratch Auth Base SDK（SAuthBase）は、Scratch プロジェクトやサービスにおいて、認証機能を安全かつ簡潔に導入するためのモジュール型 SDK です。セッションの検証、ユーザー識別の暗号化などを一貫して提供し、開発者の導入負担を軽減します。",
+  "type": "module",
+  "main": "dist/cjs/main.js",
+  "module": "dist/esm/main.js",
+  "types": "dist/types/main.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node clear.mjs && tsc -p tsconfig.build.json && node build.mjs && node ../../../cleanMacJunkFiles.mjs",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "release:latest": "npm publish --access public --tag latest",
+    "release:rc": "npm publish --access public --tag rc",
+    "release:beta": "npm publish --access public --tag beta",
+    "release:alpha": "npm publish --access public --tag alpha",
+    "release:canary": "npm publish --access public --tag canary",
+    "release:pre": "npm publish --access public --tag pre"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types/main.d.ts",
+      "import": "./dist/esm/main.js",
+      "require": "./dist/cjs/main.cjs"
+    },
+    "./scratch-api": {
+      "types": "./dist/types/scratchapi.d.ts",
+      "import": "./dist/esm/scratchapi.js",
+      "require": "./dist/cjs/scratchapi.cjs"
+    },
+    "./types": {
+      "types": "./dist/types/types.d.ts",
+      "import": "./dist/esm/types.js",
+      "require": "./dist/cjs/types.cjs"
+    }
+  },
+  "typesVersions": {},
+  "author": {
+    "name": "scratchcore",
+    "url": "https://github.com/scratchcore"
+  },
+  "homepage": "https://sauthbase.scratchcore.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scratchcore/sauthbase.git",
+    "directory": "packages/js/sauthbase"
+  },
+  "bugs": {
+    "url": "https://github.com/scratchcore/sauthbase/issues"
+  },
+  "keywords": [
+    "scratch",
+    "scratch-auth",
+    "scratchcore",
+    "auth",
+    "javascript",
+    "sdk"
+  ],
+  "license": "LicenseRef-MIT-TPC",
+  "dependencies": {
+    "axios": "^1.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.8",
+    "esbuild": "^0.25.4",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

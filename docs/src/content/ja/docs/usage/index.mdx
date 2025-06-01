@@ -1,0 +1,56 @@
+---
+title: 使用方法
+description: このセクションでは、SAuthBase SDK の主な機能の使い方を簡潔に紹介します。
+asIndexPage: true
+---
+
+import { Cards } from 'nextra/components';
+import {
+  IconSettings,
+  IconLogin,
+  IconShieldCheck,
+  IconUserShield,
+  IconLock,
+} from '@tabler/icons-react';
+
+# 使用方法
+
+このセクションでは、**SAuthBase SDK の各機能をどのように使うか**を簡潔に紹介します。  
+まずは初期化から始めて、ログインページ生成、認証、暗号化といったステップを順番に学べます。
+
+---
+
+## 機能一覧
+
+<Cards>
+  <Cards.Card
+    icon={<IconSettings />}
+    title="初期化"
+    href="/docs/usage/initialization"
+    description="SDKの使用前に必要な初期設定（init/use/isReady）の使い方を解説します。"
+  />
+  <Cards.Card
+    icon={<IconLogin />}
+    title="ログインページ生成"
+    href="/docs/usage/login"
+    description="認証に使用する Scratch Auth ページのURLを動的に生成する方法を紹介します。"
+  />
+  <Cards.Card
+    icon={<IconShieldCheck />}
+    title="セッションの検証"
+    href="/docs/usage/auth"
+    description="ログイン後の privateCode を検証し、ユーザー情報とセッションIDを取得します。"
+  />
+  <Cards.Card
+    icon={<IconUserShield />}
+    title="トークンの検証"
+    href="/docs/usage/verify"
+    description="暗号化されたトークンを検証をして、ユーザー名を取得します。"
+  />
+  <Cards.Card
+    icon={<IconLock />}
+    title="暗号化・復号"
+    href="/docs/usage/encryption"
+    description="ユーザー名やセッションIDなどのデータを安全に暗号化・復号・HMAC計算する方法です。"
+  />
+</Cards>

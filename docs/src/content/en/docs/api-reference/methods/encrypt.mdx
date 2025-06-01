@@ -1,0 +1,66 @@
+---
+title: encrypt
+description: AES-GCM アルゴリズムを使用して文字列データを暗号化するメソッドです。
+---
+
+import { OptionTable } from "@/components/_table"
+
+# encrypt
+
+Type: `encrypt(content: string): APIResult<string>`
+
+`encrypt()` は、渡された文字列データを AES-GCM アルゴリズムで暗号化します。
+
+---
+
+## 概要
+
+このメソッドはセキュリティ強化のため、AES-GCM アルゴリズムと 96 ビット IV（初期化ベクトル）を使用してデータを暗号化します。結果は以下の形式で返されます：
+
+```
+iv:encryptedData:authTag
+```
+
+---
+
+## 引数
+
+<OptionTable
+options={[
+  [
+    "content",
+    "string",
+    "暗号化したいプレーンテキスト"
+  ]
+]}
+/>
+
+---
+
+## 戻り値
+
+- 成功時: 暗号化された文字列を含む `APIResult<string>` オブジェクト。
+- 失敗時: エラー内容を含む `APIResult<string>` オブジェクト。
+
+---
+
+## 使用例
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const encrypted = sauthbase.use().encrypt("hello world");
+if (encrypted.success) {
+  console.log(encrypted.data); // "abc123:encrypted:tag456"
+} else {
+  console.error(encrypted.message);
+}
+```
+
+---
+
+## 注意事項
+
+- `secretKey` は `hex` 形式の 64 文字（32 バイト）である必要があります。
+- このメソッドは同期的に実行されます。

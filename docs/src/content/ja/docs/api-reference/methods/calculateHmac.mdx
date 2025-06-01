@@ -1,0 +1,58 @@
+---
+title: calculateHmac
+description: 指定した文字列に対して HMAC (SHA-256) を計算します。
+---
+
+import { OptionTable } from "@/components/_table"
+
+# calculateHmac
+
+Type: `calculateHmac(content: string): APIResult<string>`
+
+このメソッドは、指定されたコンテンツ（文字列）に対して、`secretKey` を使って HMAC (SHA-256) を計算し、16進数文字列として返します。
+
+---
+
+## パラメータ
+
+
+<OptionTable
+options={[
+  [
+    "content",
+    "string",
+    "HMACを計算する対象の文字列"
+  ]
+]}
+/>
+
+---
+
+## 戻り値
+
+`APIResult<string>` — 計算された HMAC を返します。失敗した場合は `success: false` と共にエラーメッセージを含みます。
+
+---
+
+## 使用例
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+// ---cut---
+const sab = sauthbase.use();
+const result = sab.calculateHmac("example-content");
+
+if (result.success) {
+  console.log("HMAC:", result.data);
+} else {
+  console.error("Error:", result.message);
+}
+```
+
+---
+
+## 注意事項
+
+- この関数は同期的に実行されます。
+- secretKey が初期化時に適切でない場合、実行時にエラーとなる可能性があります。

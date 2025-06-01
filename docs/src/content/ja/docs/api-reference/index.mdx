@@ -1,0 +1,51 @@
+---
+title: APIリファレンス
+asIndexPage: true
+---
+
+import { Cards } from "nextra/components";
+import { IconBox, IconCode, IconBraces } from "@tabler/icons-react";
+
+# API リファレンス
+
+このセクションでは、`SAuthBase` SDK が提供するすべての公開 API について詳細に解説します。各メソッド・関数・型定義には、目的・使い方・戻り値・例・エラーコードなどを含む包括的な情報が提供されます。
+
+---
+
+## 含まれる項目
+
+- `sauthbase` クラス
+  - 初期化 / インスタンス取得
+  - 認証ページ URL の生成
+  - Scratch ユーザー情報の取得
+  - HMAC および暗号化・復号
+  - トークンの検証・生成・展開
+- 型定義 (`APIResult`, `userInfoProps`, など)
+
+---
+
+## 対象読者
+
+このリファレンスは、`SAuthBase` の各機能をシステムに統合する開発者や、より深い制御・高度なカスタマイズを行いたいエンジニアを対象としています。
+
+---
+
+## 次のステップ
+
+<Cards>
+  <Cards.Card
+    icon={<IconBox />}
+    title="sauthbase クラス"
+    href="/docs/api-reference/sauthbase"
+  />
+  <Cards.Card
+    icon={<IconCode />}
+    title="インスタンスメソッド"
+    href="/docs/api-reference/methods"
+  />
+  <Cards.Card
+    icon={<IconBraces />}
+    title="型定義と構造"
+    href="/docs/api-reference/types"
+  />
+</Cards>

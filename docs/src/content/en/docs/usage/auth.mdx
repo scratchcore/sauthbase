@@ -1,0 +1,74 @@
+---
+title: 認証処理
+description: Scratch 認証後に返されるトークン（privateCode）を検証し、ユーザー情報を取得する方法を説明します。
+---
+
+import { Callout } from 'nextra/components';
+import { IconShieldCheck } from '@tabler/icons-react';
+
+# 認証処理
+
+Scratch 認証が完了すると、リダイレクト先の URL に `privateCode` がクエリとして付加されます。  
+この値を使って `verifySession()` を呼び出すことで、ユーザーセッションの正当性を確認し、ユーザー情報やセッションIDを取得することができます。
+
+---
+
+## ユーザーセッションの検証方法
+
+```ts filename="src/index.ts" showLineNumbers twoslash
+// @noErrors
+import { Hono } from "hono";
+const app = new Hono();
+import { sauthbase } from "sauthbase";
+const sab = sauthbase.use();
+// ---cut---
+app.get("/auth", async (c) => {
+  const session = c.req.query("privateCode");
+  const response = await sab.verifySession(session);
+  if (response.success) {
+    return c.json(response);
+  } else {
+    return c.json(response);
+  }
+});
+```
+
+ユーザーセッションが有効かつトークンの生成に成功したのであれば、以下のようなレスポンスが返ってきます。
+
+```json filename="Response" showLineNumbers copy=false
+{
+  "success": true,
+  "data": {
+    "token": "********************************************************,
+    "payload": {
+      "valid": true,
+      "username": "*************",
+      "type": "instant",
+      "redirect": "http://localhost:3000/auth"
+    }
+  }
+}
+```
+
+---
+
+## 検証の内部動作
+
+`verifySession()` は以下の条件をチェックしています：
+
+- `privateCode` が空でないか
+- 外部認証APIとの通信が成功するか
+- `redirect_url` が一致しているか
+- `valid` フラグが true か
+
+全て満たされた場合のみ認証が成功と判定されます。
+
+---
+
+## エラー例と対応
+
+| エラー内容 | 原因 | 対処法 |
+|------------|------|--------|
+| 検証する値が設定されていません。 | `privateCode` が undefined | クエリに privateCode が含まれているか確認 |
+| 認証システムへのアクセスに失敗しました。 | API接続失敗 | ネットワークやURLを確認 |
+| セッションの認証に失敗しました。 | セッション不一致、無効 | redirect_url が正しく設定されているか確認 |

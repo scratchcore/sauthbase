@@ -1,0 +1,47 @@
+---
+title: init
+description: SAuthBase インスタンスを初期化します。
+---
+
+import { OptionTable } from "@/components/_table"
+
+# init
+
+Type: `init(options: sauthbaseOptions): sauthbase`
+
+`init()` メソッドは `sauthbase` クラスのインスタンスを初期化します。この初期化はアプリケーション全体で一度だけ行うことを想定しています。
+
+## 引数
+
+<OptionTable
+options={[
+  [
+    "options",
+    "sauthbaseOptions",
+    "`secretKey` と `redirect_url` を含むオブジェクト"
+  ]
+]}
+/>
+
+`secretKey` は暗号化処理に使用され、`redirect_url` は認証後にリダイレクトされる先の URL を指定します。
+
+## 返り値
+
+`sauthbase` のインスタンスが返されます。
+
+## 使用例
+
+```ts filename="TypeScript" showLineNumbers twoslash
+// @noErrors
+import { sauthbase } from "sauthbase";
+
+const sab = sauthbase.init({
+  secretKey: "your_secret_key_here",
+  redirect_url: "https://your.redirect.url",
+});
+```
+
+## 注意事項
+
+- `init` は一度だけ呼び出すことを推奨します。
+- 2回目以降の呼び出しでは、すでに生成されたインスタンスが返されます。
