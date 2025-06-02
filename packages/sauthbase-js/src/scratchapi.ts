@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { APIResult, userInfoProps } from "./types.ts";
+import type { APIResult, userInfoProps } from "./types.js";
 
 /**
  * ### ScratchCore / Scratch Auth Base SDK

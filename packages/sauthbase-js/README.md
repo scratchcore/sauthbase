@@ -1,5 +1,7 @@
 # Scratch Auth Base SDK - ScratchCore
 
+[![codecov](https://codecov.io/gh/scratchcore/sauthbase/branch/main/graph/badge.svg)](https://codecov.io/gh/scratchcore/sauthbase)
+
 Scratch Auth Base SDK（SAuthBase）は、Scratch プロジェクトやサービスにおいて、認証機能を安全かつ簡潔に導入するためのモジュール型 SDK です。セッションの検証、ユーザー識別の暗号化などを一貫して提供し、開発者の導入負担を軽減します。
 
 ## 開発の経緯

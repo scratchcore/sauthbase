@@ -2,8 +2,8 @@
   "name": "@sauthbase/monorepo",
   "private": true,
   "scripts": {
-    "cleanup": "node ./cleanMacJunkFiles.mjs",
-    "generate-brand-assets": "node generate-brand-assets.js"
+    "cleanup": "node ./scripts/cleanMacJunkFiles.mjs",
+    "generate-brand-assets": "node ./scripts/generate-brand-assets.js"
   },
   "workspaces": [
     "packages/js/*"

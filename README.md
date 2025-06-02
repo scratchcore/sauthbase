@@ -7,26 +7,32 @@
 <br/>
 
 <div align="center">
-  <a>
-    <img alt="License" src="https://badgen.net/github/license/scratchcore/sauthbase"/>
+  <a href="https://github.com/scratchcore/sauthbase/blob/main/LICENSE">
+    <img alt="license" src="https://img.shields.io/npm/l/sauthbase?style=flat-square"/>
   </a>
   <a>
-    <img alt="Release" src="https://badgen.net/github/release/scratchcore/sauthbase/stable"/>
+    <img alt="version/latest" src="https://img.shields.io/npm/v/sauthbase/latest?style=flat-square"/>
   </a>
   <a>
-    <img alt="Contributors" src="https://badgen.net/github/contributors/scratchcore/sauthbase">
+    <img alt="version/next" src="https://img.shields.io/npm/v/sauthbase/next?style=flat-square"/>
   </a>
   <a>
-    <img alt="Issues" src="https://badgen.net/github/license/scratchcore/sauthbase"/>
+    <img alt="commits" src="https://img.shields.io/github/commit-activity/t/scratchcore/sauthbase?style=flat-square"/>
   </a>
   <a>
-    <img alt="Commits" src="https://badgen.net/github/commits/scratchcore/sauthbase"/>
+    <img alt="last-commit" src="https://img.shields.io/github/last-commit/scratchcore/sauthbase?style=flat-square"/>
   </a>
   <a>
-    <img alt="LastCommits" src="https://badgen.net/github/last-commit/scratchcore/sauthbase"/>
+    <img alt="contributors" src="https://img.shields.io/github/contributors/scratchcore/sauthbase?style=flat-square"/>
   </a>
   <a>
-    <img alt="Dependabot" src="https://badgen.net/github/dependabot/scratchcore/sauthbase"/>
+    <img alt="forks" src="https://img.shields.io/github/forks/scratchcore/sauthbase?style=flat-square"/>
+  </a>
+  <a>
+    <img alt="stars" src="https://img.shields.io/github/stars/scratchcore/sauthbase?style=flat-square"/>
+  </a>
+  <a>
+    <img alt="website" src="https://img.shields.io/website?url=https%3A%2F%2Fsauthbase.scratchcore.org%2F&style=flat-square"/>
   </a>
 </div>
 
@@ -36,16 +42,16 @@ Scratch Auth Base SDK（SAuthBase）は、Scratch プロジェクトやサービ
 
 ## 開発の経緯
 
-- **2024年3月**  
+- **2024 年 3 月**  
   初の認証支援パッケージとして 桐生トア氏によって、`Scratch Auth React` を開発。React ベースの UI コンポーネントと認証処理を提供していましたが、Scratch 側の仕様変更などにより動作が不安定となり、根本的な改良の必要性が生まれました。
 
-- **2024年10月**  
+- **2024 年 10 月**  
   改良版として 桐生トア氏が、`Scratch Auth with Next.js` を発表。コード構造と UI を全面的に再設計し、よりモダンな構成を採用しましたが、開発が難航し、最終的に終了となりました。
 
-- **2025年1月**  
+- **2025 年 1 月**  
   第三のプロジェクトとして 桐生トア氏が、 `scratch-auth-component` を計画。一部の設計と開発が進められたものの、やがて忘れ去られ、中断されました。
 
-- **2025年5月**  
+- **2025 年 5 月**  
   桐生トア氏によって、新たに Scratch 関連技術の開発を進めるための組織「**ScratchCore**」が設立。その最初の公式プロジェクトとして `Scratch Auth Base SDK (SAuthBase)` の開発がスタート。過去の知見を集約し、堅牢で拡張性のある構造を備えた認証 SDK を目指しています。
 
 ## 今後の展望
@@ -56,7 +62,7 @@ Scratch Auth Base SDK（SAuthBase）は、Scratch プロジェクトやサービ
 
 ## チーム
 
-現在、このプロジェクトは [ScratchCore](https://github.com/scratchcore) によってメンテナンスされています。[貢献者の全リスト](https://github.com/scratchcore/sauthbase/graphs/contributors)は  GitHubでご確認いただけます 。
+現在、このプロジェクトは [ScratchCore](https://github.com/scratchcore) によってメンテナンスされています。[貢献者の全リスト](https://github.com/scratchcore/sauthbase/graphs/contributors)は GitHub でご確認いただけます 。
 
 ## クレジット
 

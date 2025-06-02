@@ -9,7 +9,7 @@ import type {
   userInfoProps,
   verifySessionProps,
   verifySessionResponse,
-} from "./types.ts";
+} from "./types";
 
 /**
  * ### ScratchCore / Scratch Auth Base SDK
