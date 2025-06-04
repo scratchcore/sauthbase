@@ -14,7 +14,7 @@
     "dev": "tsc --watch",
     "test": "vitest run",
     "test:watch": "vitest --ui",
-    "coverage": "vitest run --coverage --passWithNoTests",
+    "coverage": "vitest run --coverage",
     "coverage:preview": "node ../../scripts/preview-coverage.mjs",
     "release:latest": "npm publish --access public --tag latest",
     "release:next": "npm publish --access public --tag next",
