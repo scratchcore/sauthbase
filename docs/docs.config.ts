@@ -6,6 +6,7 @@ const docsConfig: docsConfigType = {
     name: "scratchcore",
     repo: "sauthbase",
   },
+  url: "https://sauthbase.scratchcore.org",
 };
 
 export default docsConfig;

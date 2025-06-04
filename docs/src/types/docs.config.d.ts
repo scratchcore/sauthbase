@@ -4,4 +4,5 @@ export default interface docsConfigType {
     name: string;
     repo: string;
   };
+  url: string
 }

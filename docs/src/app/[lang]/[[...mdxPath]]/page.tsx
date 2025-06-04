@@ -1,7 +1,10 @@
+"use server";
+
 import type { FC } from "react";
 import { headers } from "next/headers";
 import { generateStaticParamsFor, importPage } from "nextra/pages";
 import { useMDXComponents as getMDXComponents } from "../../../mdx-components";
+import { Metadata } from "next";
 
 export const generateStaticParams = generateStaticParamsFor("mdxPath");
 
@@ -15,10 +18,26 @@ export async function generateMetadata(props: PageProps) {
     pathname === `/${params.lang}` || pathname === `/${params.lang}/`;
 
   if (isLangRoot) {
-    delete metadata.title;
+    delete metadata?.title;
   }
 
-  return metadata;
+  const image = "/wp-content/brand/sauthbase/logo-nobg.512x512.png";
+
+  let meta: Metadata = {
+    openGraph: {
+      type: "profile",
+      images: image,
+      ...metadata?.openGraph,
+    },
+    twitter: {
+      card: "summary",
+      images: image,
+      ...metadata?.twitter,
+    },
+    ...metadata,
+  };
+
+  return meta;
 }
 
 type PageProps = Readonly<{

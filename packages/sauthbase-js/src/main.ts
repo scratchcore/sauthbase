@@ -10,77 +10,36 @@ import type {
   verifySessionProps,
   verifySessionResponse,
 } from "./types";
+import { securityCheck } from "./security";
 
 /**
- * ### ScratchCore / Scratch Auth Base SDK
- * #### 安全性チェック
- * @since v0.0.1
- * @description
- * この関数は、`sauthbaseOptions` オブジェクトの `secretKey` の 安全性をチェックします。
- * @param options `sauthbaseOptions` オプションを含むオブジェクト
- * @example
- * ```typescript
- * const options: sauthbaseOptions = {
- *   secretKey: "your_secret_key_here",
- *   redirect_url: "https://your.redirect.url",
- * };
- * securityCheck(options); // 安全性チェックを実行
- * ```
- * @copyright [toakiryu](https://github.com/toakiryu)
- */
-const securityCheck = (options: sauthbaseOptions) => {
-  const { secretKey } = options;
-
-  if (!secretKey || typeof secretKey !== "string") {
-    throw new Error("[SAuthBase] secretKey is required and must be a string.");
-  }
-
-  // 推奨: hex形式 64文字（32バイト）
-  const isHex = /^[a-fA-F0-9]+$/.test(secretKey);
-  if (!isHex || secretKey.length < 64) {
-    console.warn(
-      "[SAuthBase] ⚠ WARNING: The provided secretKey is weak or not in expected hex format (64 hex characters recommended for AES-256)."
-    );
-  }
-
-  // 一部の危険なキーを検出（例：空文字、デモ用、短い文字列）
-  const weakKeys = ["secret", "1234", "", "password"];
-  if (weakKeys.includes(secretKey.trim())) {
-    console.warn(
-      `[SAuthBase] ⚠ WARNING: You are using a dangerously weak secretKey ("${secretKey}"). This should never be used in production!`
-    );
-  }
-};
-
-/**
- * ### ScratchCore / Scratch Auth Base SDK
- * #### ベースクラス
- * @since v0.0.1
- * @class
- * @classdesc
  * このクラスは、Scratchの認証システムを使用するための基本的な機能を提供します。
  * 認証ページの生成、ユーザー情報の取得、トークンの検証などの機能を含みます。
  * シングルトンパターンを使用して、アプリケーション全体で1つのインスタンスを共有します。
+ *
+ * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+ * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+ * @copyright [toakiryu](https://github.com/toakiryu)
  */
 export class sauthbase {
   private static instance: sauthbase | null = null;
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### `sauthbase` のコンストラクタ
-   * @since v0.0.1
-   * @description
    * このコンストラクタは、`sauthbase` のインスタンスを作成します。
    * `secretKey` と `redirect_url` を指定する必要があります。
    * `secretKey` は、セキュリティのために十分に強力である必要があります。
    * `redirect_url` は、認証後にリダイレクトされるURLです。
-   * @param secretKey セキュリティキー（AES-256-GCMなどの暗号化アルゴリズムで使用）
-   * @param redirect_url リダイレクト先のURL
-   * @example
+   *
    * ```typescript
    * const sab = new sauthbase({ secretKey: "your_secret_key_here",  redirect_url: "https://your.redirect.url"});
    * console.log(sab); // SAuthBase インスタンスが表示されます
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @param secretKey セキュリティキー（AES-256-GCMなどの暗号化アルゴリズムで使用）
+   * @param redirect_url リダイレクト先のURL
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   private constructor(
     private readonly secretKey: string,
@@ -88,18 +47,12 @@ export class sauthbase {
   ) {}
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### `sauthbase` の初期化
-   * @since v0.0.1
-   * @description
    * このメソッドは、`sauthbase` のインスタンスを初期化します。
    * `secretKey` と `redirect_url` を指定する必要があります。
    * `secretKey` は、セキュリティのために十分に強力である必要があります。
    * `redirect_url` は、認証後にリダイレクトされるURLです。
    * 初期化後、`sauthbase.use()` を使用してインスタンスを取得できます。
-   * @param options `sauthbaseOptions` オプションを含むオブジェクト
-   * @returns  `sauthbase` インスタンス
-   * @example
+   *
    * ```typescript
    * const sab = sauthbase.init({
    *   secretKey: "your_secret_key_here",
@@ -107,6 +60,12 @@ export class sauthbase {
    * });
    * console.log(sab); // sauthbase インスタンスが表示されます
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @param options `sauthbaseOptions` オプションを含むオブジェクト
+   * @returns  `sauthbase` インスタンス
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   static init(options: sauthbaseOptions): sauthbase {
     if (!this.instance) {
@@ -117,19 +76,20 @@ export class sauthbase {
   }
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### `sauthbase` のインスタンスを取得
-   * @since v0.0.1
-   * @description
    * このメソッドは、`sauthbase` のインスタンスを取得します。
    * 初期化されていない場合は、エラーをスローします。
-   * @returns `sauthbase` インスタンスを取得します。
-   * @throws エラーが発生した場合、`sauthbase` が初期化されていないことを示すエラーメッセージをスローします。
+   *
    * @example
    * ```typescript
    * const sab = sauthbase.use();
    * console.log(sab); // sauthbase インスタンスが表示されます
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @returns `sauthbase` インスタンスを取得します。
+   * @throws エラーが発生した場合、`sauthbase` が初期化されていないことを示すエラーメッセージをスローします。
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   static use(): sauthbase {
     if (!this.instance) {
@@ -139,53 +99,47 @@ export class sauthbase {
   }
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### `sauthbase` のインスタンスが初期化されているかどうかを確認
-   * @since v0.0.1
-   * @description
    * このメソッドは、`sauthbase` のインスタンスが初期化されているかどうかを確認します。
    * 初期化されている場合は `true` を返し、初期化されていない場合は `false` を返します。
-   * @returns `boolean` インスタンスが初期化されているかどうかを確認します。
-   * @example
+   *
    * ```typescript
    * const isInitialized = sauthbase.isReady();
    * console.log(isInitialized); // true または false が表示されます
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @returns `boolean` インスタンスが初期化されているかどうかを確認します。
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   static isReady(): boolean {
     return this.instance !== null;
   }
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### シークレットキーの生成
-   * @since v0.0.1
-   * @description
    * セキュアなキーを生成します。32バイトのランダムなバイナリデータを16進数文字列に変換して返します。
    * 生成されるキーは、AES-256-GCMなどの暗号化アルゴリズムで使用するのに適しています。
-   * @returns `string` 生成されたキー
-   * @example
+   *
    * ```typescript
    * const secureKey = sauthbase.generateSecureKey();
    * console.log(secureKey); // 例: "a3f5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7"
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @returns `string` 生成されたキー
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   static generateSecureKey(): string {
     return crypto.randomBytes(32).toString("hex"); // 64文字
   }
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### HMACを計算
-   * @since v0.0.1
-   * @description
    * このメソッドは、指定されたコンテンツに対してHMACを計算します。
    * HMACは、指定されたシークレットキーを使用して計算されます。
    * 成功した場合、計算されたHMACを16進数文字列として返します。
    * 失敗した場合は、エラーメッセージとステータスコードを含むAPI結果オブジェクトを返します。
-   * @param content 計算するコンテンツ
-   * @returns `APIResult<string>` 計算されたHMACを含むAPI結果オブジェクト
-   * @example
+   *
    * ```typescript
    * const hmacResult = sauthbase.use().calculateHmac("......");
    * if (hmacResult.success) {
@@ -194,6 +148,12 @@ export class sauthbase {
    *   console.error(hmacResult.message); // エラーメッセージが表示されます
    * }
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @param content 計算するコンテンツ
+   * @returns `APIResult<string>` 計算されたHMACを含むAPI結果オブジェクト
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   calculateHmac(content: string): APIResult<string> {
     try {
@@ -217,17 +177,11 @@ export class sauthbase {
   }
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### AES-GCMによる暗号化
-   * @since v0.0.1
-   * @description
    * このメソッドは、指定されたコンテンツをAES-GCMアルゴリズムを使用して暗号化します。
    * 暗号化には、指定されたシークレットキーが使用されます。
    * 成功した場合、暗号化されたデータをIV（初期化ベクトル）、暗号文、および認証タグを含む形式で返します。
    * 失敗した場合は、エラーメッセージとステータスコードを含むAPI結果オブジェクトを返します。
-   * @param content 暗号化するコンテンツ
-   * @returns `APIResult<string>` 暗号化されたデータを含むAPI結果オブジェクト
-   * @example
+   *
    * ```typescript
    * const encrypted = sauthbase.use().encrypt("......");
    * if (encrypted.success) {
@@ -236,6 +190,12 @@ export class sauthbase {
    *   console.error(encrypted.message); // エラーメッセージが表示されます
    * }
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @param content 暗号化するコンテンツ
+   * @returns `APIResult<string>` 暗号化されたデータを含むAPI結果オブジェクト
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   encrypt(content: string): APIResult<string> {
     try {
@@ -264,17 +224,11 @@ export class sauthbase {
   }
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### AES-GCMによる復号
-   * @since v0.0.1
-   * @description
    * このメソッドは、指定された暗号化されたコンテンツをAES-GCMアルゴリズムを使用して復号します。
    * 復号には、指定されたシークレットキーが使用されます。
    * 成功した場合、復号されたデータをUTF-8文字列として返します。
    * 失敗した場合は、エラーメッセージとステータスコードを含むAPI結果オブジェクトを返します。
-   * @param content 復号する暗号化されたコンテンツ
-   * @returns `APIResult<string>` 復号されたデータを含むAPI結果オブジェクト
-   * @example
+   *
    * ```typescript
    * const decrypted = sauthbase.use().decrypt("......");
    * if (decrypted.success) {
@@ -283,6 +237,12 @@ export class sauthbase {
    *   console.error(decrypted.message); // エラーメッセージが表示されます
    * }
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @param content 復号する暗号化されたコンテンツ
+   * @returns `APIResult<string>` 復号されたデータを含むAPI結果オブジェクト
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   decrypt(content: string): APIResult<string> {
     const parts = content.split(":");
@@ -325,55 +285,39 @@ export class sauthbase {
   }
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### 認証ページURLの生成
-   * @since v0.0.1
-   * @description
    * このメソッドは、認証ページのURLを生成します。
    * デフォルトでは、タイトルは "ScratchCore" ですが、オプションで変更できます。
    * 生成されるURLは、認証システムにリダイレクトするためのものです。
    * URLには、リダイレクト先のURLがBase64エンコードされた形式で含まれます。
    * 生成されたURLは、ユーザーが認証を行うために使用できます。
-   * @param title 認証ページでタイトルとして表示されます
-   * @returns `APIResult<string>` 認証ページのURLを含むAPI結果オブジェクト
-   * @example
+   *
    * ```typescript
    * const authUrl = sauthbase.use().generationAuthPageUrl("MyApp");
    * console.log(authUrl.data); // 例: "https://auth.itinerary.eu.org/auth/?redirect=..."
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @param title 認証ページでタイトルとして表示されます
+   * @returns `APIResult<string>` 認証ページのURLを含むAPI結果オブジェクト
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   generationAuthPageUrl(title?: string): APIResult<string> {
-    try {
-      const _title = title ?? "ScratchCore";
-      const redirectLocation = btoa(this.redirect_url);
-      return {
-        success: true,
-        code: "SUCCESS",
-        data: `https://auth.itinerary.eu.org/auth/?redirect=${redirectLocation}&name=${_title}`,
-      };
-    } catch (error) {
-      return {
-        status: 500,
-        success: false,
-        code: "ERROR/INTERNAL",
-        message: "認証ページURLの生成中に予期せぬエラーが発生しました。",
-        error,
-      };
-    }
+    const _title = title || "ScratchCore";
+    const redirectLocation = btoa(this.redirect_url);
+    return {
+      success: true,
+      code: "SUCCESS",
+      data: `https://auth.itinerary.eu.org/auth/?redirect=${redirectLocation}&name=${_title}`,
+    };
   }
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### アカウント情報を暗号化
-   * @since v0.0.1
-   * @description
    * このメソッドは、指定されたScratchアカウント名を暗号化します。
    * アカウント名とHMACを組み合わせて暗号化し、暗号化されたデータを返します。
    * 成功した場合、暗号化されたデータを含むAPI結果オブジェクトを返します。
    * 失敗した場合は、エラーメッセージとステータスコードを含むAPI結果オブジェクトを返します。
-   * @param content アカウント名
-   * @returns `APIResult<string>` 暗号化されたトークン情報を含むAPI結果オブジェクト
-   * @example
+   *
    * ```typescript
    * const encryptedAccount = await sauthbase.use().generateEncryptedToken("exampleUser");
    * if (encryptedAccount.success) {
@@ -382,6 +326,12 @@ export class sauthbase {
    *   console.error(encryptedAccount.message); // エラーメッセージが表示されます
    * }
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @param content アカウント名
+   * @returns `APIResult<string>` 暗号化されたトークン情報を含むAPI結果オブジェクト
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   async generateEncryptedToken(
     content?: null | undefined | string
@@ -427,16 +377,10 @@ export class sauthbase {
   }
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### ユーザーセッションの検証
-   * @since v0.0.1
-   * @description
    * このメソッドは、指定されたユーザーセッションを検証します。
    * ユーザーセッションが有効であり、リダイレクトURLが一致する場合、トークンと検証データを返します。
    * 失敗した場合は、エラーメッセージとステータスコードを含むAPI結果オブジェクトを返します。
-   * @param content 検証するセッション
-   * @returns `APIResult<verifySessionResponse>` セッションの検証結果を含むAPI結果オブジェクト
-   * @example
+   *
    * ```typescript
    * const verificationResult = await sauthbase.use().verifySession("your_token_here");
    * if (verificationResult.success) {
@@ -445,9 +389,16 @@ export class sauthbase {
    *   console.error(verificationResult.message); // エラーメッセージが表示されます
    * }
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @param content 検証するセッション
+   * @returns `APIResult<verifySessionResponse>` セッションの検証結果を含むAPI結果オブジェクト
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   async verifySession(
-    content?: string | undefined | null
+    content?: string | undefined | null,
+    fetcher: (url: string) => Promise<{ data: verifySessionProps }> = axios
   ): Promise<APIResult<verifySessionResponse>> {
     if (!content || content === "") {
       return {
@@ -459,7 +410,7 @@ export class sauthbase {
     }
     try {
       // ユーザーセッションの検証
-      const response = await axios(
+      const response = await fetcher(
         `https://auth.itinerary.eu.org/api/auth/verifySession?privateCode=${content}`
       );
       const data: verifySessionProps = response.data;
@@ -485,7 +436,7 @@ export class sauthbase {
       return {
         status: 404,
         success: false,
-        code: "ERROR/ARGUMENT_REQUIRED_SESSION",
+        code: "ERROR/SESSION_INVALID_OR_REDIRECT_MISMATCH",
         message:
           "ユーザーセッションの検証に失敗しました。リダイレクトURLが一致しないか無効なユーザーセッションです。",
       };
@@ -501,14 +452,8 @@ export class sauthbase {
   }
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### 暗号化されたトークンからユーザー名を取得
-   * @since v0.0.1
-   * @description
    * このメソッドは、暗号化されたトークンを復号し、セッションIDとHMACを検証します。改ざんが検知された場合は失敗として返します。
-   * @param content 暗号化されたトークン
-   * @returns `APIResult<string>` 復号と検証されたユーザー名を含むAPI結果オブジェクト
-   * @example
+   *
    * ```typescript
    * const sessionIdResult = await sauthbase.use().extractUserWithVerify("your_encrypted_token_here");
    * if (sessionIdResult.success) {
@@ -517,6 +462,12 @@ export class sauthbase {
    *   console.error(sessionIdResult.message); // エラーメッセージが表示されます
    * }
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @param content 暗号化されたトークン
+   * @returns `APIResult<string>` 復号と検証されたユーザー名を含むAPI結果オブジェクト
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   async extractUserWithVerify(
     content?: string | undefined | null
@@ -572,16 +523,8 @@ export class sauthbase {
   }
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### 暗号化されたトークンからユーザー名を取得
-   * @since v0.0.1
-   * @deprecated この関数は改ざん検知を行わないため、認証用途には使用しないでください。代わりに `extractUserWithVerify()` を使用してください。
-   * 暗号化されたトークンからユーザー名を取得する
-   * @description
    * このメソッドは、暗号化されたトークンからユーザー名を復号して取得します。ただし、HMACによる改ざん検知を行わないため、セキュアな認証用途には適していません。
-   * @param content 暗号化されたトークン
-   * @returns `APIResult<string>` 検証なしで抽出されたユーザー名を含むAPI結果オブジェクト
-   * @example
+   *
    * ```typescript
    * const userNameResult = sauthbase.use().extractUserUnsafe("your_encrypted_token_here");
    * if (userNameResult.success) {
@@ -590,6 +533,14 @@ export class sauthbase {
    *   console.error(userNameResult.message); // エラーメッセージが表示されます
    * }
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @deprecated この関数は改ざん検知を行わないため、認証用途には使用しないでください。代わりに `extractUserWithVerify()` を使用してください。
+   * 暗号化されたトークンからユーザー名を取得する
+   * @param content 暗号化されたトークン
+   * @returns `APIResult<string>` 検証なしで抽出されたユーザー名を含むAPI結果オブジェクト
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   extractUserUnsafe(content?: string | undefined | null): APIResult<string> {
     if (!content) {
@@ -621,16 +572,10 @@ export class sauthbase {
   }
 
   /**
-   * ### ScratchCore / Scratch Auth Base SDK
-   * #### ユーザー情報の取得
-   * @since v0.0.1
-   * @description
    * このメソッドは、指定されたユーザー名に基づいてScratchのユーザー情報を取得します。
    * 成功した場合、ユーザー情報を含む`userInfoProps`オブジェクトを返します。
    * 失敗した場合は、エラーメッセージとステータスコードを含むAPI結果オブジェクトを返します。
-   * @param username ユーザー名
-   * @returns `APIResult<UserInfoProps>` ユーザー情報を含むAPI結果オブジェクト
-   * @example
+   *
    * ```typescript
    * const userInfo = await sauthbase.use().getUser("exampleUser");
    * if (userInfo.success) {
@@ -639,32 +584,28 @@ export class sauthbase {
    *   console.error(userInfo.message); // エラーメッセージが表示されます
    * }
    * ```
+   *
+   * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+   * @param username ユーザー名
+   * @returns `APIResult<UserInfoProps>` ユーザー情報を含むAPI結果オブジェクト
+   * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
+   * @copyright [toakiryu](https://github.com/toakiryu)
    */
   async getUser(username: string): Promise<APIResult<userInfoProps>> {
-    try {
-      const response = await getScratchUserInfo(username);
-      if (response.success) {
-        return {
-          success: true,
-          code: "SUCCESS",
-          data: response.data,
-        };
-      } else {
-        return {
-          status: response.status,
-          success: false,
-          code: "ERROR/FETCH_FAILED",
-          message: response.message,
-          error: response.error,
-        };
-      }
-    } catch (error) {
+    const response = await getScratchUserInfo(username);
+    if (response.success) {
       return {
-        status: 500,
+        success: true,
+        code: "SUCCESS",
+        data: response.data,
+      };
+    } else {
+      return {
+        status: response.status,
         success: false,
-        code: "ERROR/INTERNAL",
-        message: "ユーザー情報の取得中に予期せぬエラーが発生しました。",
-        error,
+        code: response.code,
+        message: response.message,
+        error: response.error,
       };
     }
   }

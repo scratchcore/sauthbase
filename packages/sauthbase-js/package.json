@@ -1,6 +1,6 @@
 {
   "name": "sauthbase",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.2",
   "description": "Scratch Auth Base SDK（SAuthBase）は、Scratch プロジェクトやサービスにおいて、認証機能を安全かつ簡潔に導入するためのモジュール型 SDK です。セッションの検証、ユーザー識別の暗号化などを一貫して提供し、開発者の導入負担を軽減します。",
   "type": "module",
   "main": "dist/cjs/main.js",
@@ -13,15 +13,16 @@
     "build": "node clear.mjs && tsc -p tsconfig.build.json && node build.mjs && node ../../scripts/cleanMacJunkFiles.mjs",
     "dev": "tsc --watch",
     "test": "vitest run",
+    "test:watch": "vitest --ui",
     "coverage": "vitest run --coverage --passWithNoTests",
+    "coverage:preview": "node ../../scripts/preview-coverage.mjs",
     "release:latest": "npm publish --access public --tag latest",
     "release:next": "npm publish --access public --tag next",
     "release:rc": "npm publish --access public --tag rc",
     "release:beta": "npm publish --access public --tag beta",
     "release:alpha": "npm publish --access public --tag alpha",
     "release:canary": "npm publish --access public --tag canary",
-    "release:pre": "npm publish --access public --tag pre",
-    "coverage:preview": "node ../../scripts/preview-coverage.mjs"
+    "release:pre": "npm publish --access public --tag pre"
   },
   "exports": {
     ".": {
@@ -68,11 +69,11 @@
   },
   "devDependencies": {
     "@types/node": "^22.7.8",
-    "@vitest/coverage-v8": "3.1.4",
+    "@vitest/coverage-v8": "3.2.0",
+    "@vitest/ui": "^3.2.0",
     "esbuild": "^0.25.4",
-    "tsup": "^8.5.0",
     "typescript": "^5.8.3",
-    "vitest": "^3.1.4"
+    "vitest": "^3.2.0"
   },
   "engines": {
     "node": ">=18"

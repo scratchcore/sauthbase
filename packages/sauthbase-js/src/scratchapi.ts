@@ -1,17 +1,11 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import type { APIResult, userInfoProps } from "./types.js";
 
 /**
- * ### ScratchCore / Scratch Auth Base SDK
- * #### ユーザー情報の取得
- * @since v0.0.1
- * @description
  * このメソッドは、指定されたユーザー名に基づいてScratchのユーザー情報を取得します。
  * 成功した場合、ユーザー情報を含む`userInfoProps`オブジェクトを返します。
  * 失敗した場合は、エラーメッセージとステータスコードを含むAPI結果オブジェクトを返します。
- * @param username ユーザー名
- * @returns `APIResult<UserInfoProps>` ユーザー情報を含むAPI結果オブジェクト
- * @example
+ *
  * ```typescript
  * const userInfo = await getScratchUserInfo("exampleUser");
  * if (userInfo.success) {
@@ -20,6 +14,12 @@ import type { APIResult, userInfoProps } from "./types.js";
  *   console.error(userInfo.message); // エラーメッセージが表示されます
  * }
  * ```
+ *
+ * @since [v0.0.1-alpha.1](https://www.npmjs.com/package/sauthbase/v/0.0.1-alpha.1)
+ * @param username ユーザー名
+ * @returns `APIResult<UserInfoProps>` ユーザー情報を含むAPI結果オブジェクト
+ * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/scratchapi.ts)
+ * @copyright [toakiryu](https://github.com/toakiryu)
  */
 export const getScratchUserInfo = async (
   username?: null | undefined | string
@@ -36,21 +36,22 @@ export const getScratchUserInfo = async (
     const response = await axios(
       `https://api.scratch.mit.edu/users/${username}`
     );
-    if (response.data) {
-      return {
-        code: "SUCCESS",
-        success: true,
-        data: response.data,
-      };
-    } else {
+    return {
+      code: "SUCCESS",
+      success: true,
+      data: response.data,
+    };
+  } catch (error) {
+    const err = error as AxiosError;
+    if (err.status === 404) {
       return {
         code: "ERROR/USER_NOT_FOUND",
         status: 404,
         success: false,
         message: "ユーザー情報を取得出来ませんでした。",
+        error: error,
       };
     }
-  } catch (error) {
     return {
       code: "ERROR/REQUEST_FAILED_SCRATCH_API",
       status: 500,

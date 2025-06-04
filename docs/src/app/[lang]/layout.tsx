@@ -1,4 +1,4 @@
-import "./globals.css";
+import "../globals.css";
 
 import docsConfig from "../../../docs.config";
 
@@ -9,8 +9,8 @@ import { Banner, Head } from "nextra/components";
 import { Footer, LastUpdated, Layout, Navbar } from "nextra-theme-docs";
 import cn from "clsx";
 import { getDocsVersionSpace } from "@/lib/docs-version";
-import { getDictionary, getDirection } from "../_dictionaries/get-dictionary";
 import { IconMessages } from "@tabler/icons-react";
+import { getDictionary, getDirection } from "../_dictionaries/get-dictionary";
 
 type LayoutProps = Readonly<{
   children: ReactNode;
@@ -30,6 +30,10 @@ export async function generateMetadata(): Promise<Metadata> {
     icons: {
       icon: "/wp-content/brand/sauthbase/logo-nobg.256x256.ico",
       apple: "/wp-content/brand/sauthbase/logo-nobg.256x256.png",
+    },
+    openGraph: {
+      type: "profile",
+      images: "/wp-content/brand/sauthbase/logo-nobg.256x256.webp",
     },
   };
 }
