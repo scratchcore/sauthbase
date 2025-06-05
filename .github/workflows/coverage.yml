@@ -20,7 +20,7 @@ jobs:
           git fetch origin ${{ github.base_ref }} --depth=1
           if git diff --quiet origin/${{ github.base_ref }} -- packages/sauthbase-js; then
             echo "skip=true" >> $GITHUB_ENV
-          fiï
+          fi
 
       - name: Set up Node
         if: env.skip != 'true'
