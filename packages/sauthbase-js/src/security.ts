@@ -1,4 +1,4 @@
-import { sauthbaseOptions } from "./types";
+import type { sauthbaseOptions } from "./types.ts";
 
 /**
  * この関数は、`sauthbaseOptions` オブジェクトの `secretKey` の 安全性をチェックします。

@@ -21,7 +21,7 @@ export async function generateMetadata(props: PageProps) {
     delete metadata?.title;
   }
 
-  const image = "/wp-content/brand/sauthbase/logo-nobg.512x512.png";
+  const image = "https://sauthbase.scratchcore.org/wp-content/brand/sauthbase/logo-nobg.512x512.png";
 
   let meta: Metadata = {
     openGraph: {

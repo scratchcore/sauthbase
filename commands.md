@@ -1,5 +1,13 @@
 # Commands
 
+## `npm dist-tag`
+
+### 特定のバージョンのタグを変更する
+
+```sh
+npm dist-tag add sauthbase@<version> <tag>
+```
+
 ## `npm run generate-brand-assets`
 
 元となる画像からブランドアセットを生成します。

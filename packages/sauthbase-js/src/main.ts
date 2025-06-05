@@ -9,7 +9,7 @@ import type {
   userInfoProps,
   verifySessionProps,
   verifySessionResponse,
-} from "./types";
+} from "./types.ts";
 import { securityCheck } from "./security";
 
 /**

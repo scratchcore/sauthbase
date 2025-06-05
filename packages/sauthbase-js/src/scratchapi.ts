@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import type { APIResult, userInfoProps } from "./types.js";
+import type { APIResult, userInfoProps } from "./types.ts";
 
 /**
  * このメソッドは、指定されたユーザー名に基づいてScratchのユーザー情報を取得します。

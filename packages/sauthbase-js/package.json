@@ -16,6 +16,7 @@
     "test:watch": "vitest --ui",
     "coverage": "vitest run --coverage",
     "coverage:preview": "node ../../scripts/preview-coverage.mjs",
+    "dist-tag:ls": "npm dist-tag ls sauthbase",
     "release:latest": "npm publish --access public --tag latest",
     "release:next": "npm publish --access public --tag next",
     "release:rc": "npm publish --access public --tag rc",
@@ -41,10 +42,10 @@
       "require": "./dist/cjs/types.cjs"
     }
   },
-  "typesVersions": {},
   "author": {
     "name": "scratchcore",
-    "url": "https://github.com/scratchcore"
+    "url": "https://github.com/scratchcore",
+    "email": "contact@scratchcore.org"
   },
   "homepage": "https://sauthbase.scratchcore.org",
   "repository": {
