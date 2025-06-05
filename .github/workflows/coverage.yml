@@ -14,18 +14,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Check for changes
+        id: changes
+        run: |
+          git fetch origin ${{ github.base_ref }} --depth=1
+          if git diff --quiet origin/${{ github.base_ref }} -- website; then
+            echo "skip=true" >> $GITHUB_ENV
+          fiï
+
       - name: Set up Node
+        if: env.skip != 'true'
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Install dependencies
+        if: env.skip != 'true'
         run: npm install
 
       - name: Run tests with coverage
+        if: env.skip != 'true'
         run: npm run coverage
 
       - name: Upload coverage to Codecov
+        if: env.skip != 'true'
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
