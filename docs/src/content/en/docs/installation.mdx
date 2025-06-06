@@ -1,28 +1,28 @@
 ---
-title: インストール
-description: SAuthBase SDK の導入方法と、最小限のセットアップ手順をご案内します。
+title: Installation
+description: This guide explains how to install the SAuthBase SDK and perform the minimal setup required.
 ---
 
-# インストール
+# Installation
 
-このセクションでは、SAuthBase SDK を既存のプロジェクトに手動で導入する方法について説明します。
+This section explains how to manually integrate the SAuthBase SDK into an existing project.
 
-## システム要件
+## System Requirements
 
-- [Node.js 18](https://nodejs.org/ja) 以降
-- macOS、Windows（WSL 含む）、または Linux
+- [Node.js 18](https://nodejs.org/en) or later
+- macOS, Windows (including WSL), or Linux
 
-## パッケージのインストール
+## Installing the Package
 
-SAuthBase SDK は 以下の経由でインストールできます。
+The SAuthBase SDK can be installed using the following command:
 
 ```sh filename="terminal"  npm2yarn
 npm install sauthbase
 ```
 
-基本的なセットアップ
+### Basic Setup
 
-TypeScript プロジェクト内で以下のようにインポートし、初期化してください。
+In a TypeScript project, import and initialize it as shown below:
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -34,9 +34,9 @@ sauthbase.init({
 });
 ```
 
-secretKey は 64 文字の hex 文字列を推奨します。セキュリティのため十分な長さと複雑性が必要です。
+A 64-character hexadecimal string is recommended for `secretKey`. It should be sufficiently long and complex for security purposes.
 
-SAuthBase はシークレットキー生成機能も提供しています。
+The SAuthBase SDK also provides a secure key generator:
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -45,6 +45,6 @@ import { sauthbase } from "sauthbase";
 console.log(sauthbase.generateSecureKey())
 ```
 
-### 自動インストール
+### Automatic Installation
 
-SAuthBase SDK の自動セットアップ CLI は現在ありません。今後のアップデートで追加予定です。
+There is currently no automatic setup CLI for the SAuthBase SDK. It is planned for a future update.

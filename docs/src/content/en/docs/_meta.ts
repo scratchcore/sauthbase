@@ -1,5 +1,4 @@
 import type { MetaRecord } from "nextra";
-import { title } from "process";
 
 /**
  * type MetaRecordValue =
@@ -11,12 +10,12 @@ import { title } from "process";
  * type MetaRecord = Record<string, MetaRecordValue>
  **/
 const meta: MetaRecord = {
-  index: "はじめに",
-  installation: "インストール",
-  quickstart: "クイックスタート",
-  usage: "使い方",
-  advanced: "高度な機能",
-  "api-reference": "API リファレンス",
+  index: "Introduction",
+  installation: "Installation",
+  quickstart: "Quick Start",
+  usage: "Usage",
+  advanced: "Advanced Features",
+  "api-reference": "API Reference",
 };
 
 export default meta;

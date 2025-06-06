@@ -1,6 +1,6 @@
 ---
 title: decrypt
-description: AES-GCM により暗号化されたトークンを復号し、元の文字列に戻します。
+description: Decrypts an AES-GCM encrypted token and returns the original string.
 ---
 
 import { OptionTable } from "@/components/_table"
@@ -9,7 +9,7 @@ import { OptionTable } from "@/components/_table"
 
 Type: `decrypt(content: string): APIResult<string>`
 
-`decrypt()` は、`encrypt()` により暗号化されたデータを復号し、元の平文文字列を取得するためのインスタンスメソッドです。
+The `decrypt()` method decrypts data encrypted by `encrypt()` and returns the original plaintext string.
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -18,23 +18,23 @@ import { sauthbase } from "sauthbase";
 const decrypted = sauthbase.use().decrypt("afbc12...:5cbb...:beef...");
 ```
 
-## 引数
+## Parameters
 
 <OptionTable
 options={[
   [
     "content",
     "string",
-    "暗号化された文字列"
+    "Encrypted string to be decrypted"
   ]
 ]}
 />
 
-## 戻り値
+## Return Value
 
-- `APIResult<string>`: 復号に成功した場合は `data` に文字列が格納されます。失敗時は `success: false` とともに `message`, `status`, `code` などが返されます。
+- `APIResult<string>`: If decryption is successful, the result will contain the original string in the `data` field. If it fails, it will return `success: false` with accompanying `message`, `status`, and `code`.
 
-## 使用例
+## Example Usage
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -47,8 +47,8 @@ if (encrypted.success) {
 }
 ```
 
-## 注意点
+## Notes
 
-- 復号する値は `encrypt()` によって生成された形式である必要があります。
-- IV（初期化ベクトル）、暗号文、認証タグを「:」で連結した形式が必要です。
-- 不正な形式やタグの不一致などがあると復号に失敗します。
+- The input must follow the format produced by `encrypt()`.
+- The format must be a string containing IV, ciphertext, and auth tag separated by colons (`:`).
+- Decryption will fail if the format is invalid or if the authentication tag is incorrect.

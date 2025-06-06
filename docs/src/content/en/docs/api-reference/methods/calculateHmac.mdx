@@ -1,6 +1,6 @@
 ---
 title: calculateHmac
-description: 指定した文字列に対して HMAC (SHA-256) を計算します。
+description: Computes an HMAC (SHA-256) hash from a given string.
 ---
 
 import { OptionTable } from "@/components/_table"
@@ -9,11 +9,11 @@ import { OptionTable } from "@/components/_table"
 
 Type: `calculateHmac(content: string): APIResult<string>`
 
-このメソッドは、指定されたコンテンツ（文字列）に対して、`secretKey` を使って HMAC (SHA-256) を計算し、16進数文字列として返します。
+This method computes the HMAC (SHA-256) of the specified content string using the `secretKey`, and returns it as a hexadecimal string.
 
 ---
 
-## パラメータ
+## Parameters
 
 
 <OptionTable
@@ -21,20 +21,20 @@ options={[
   [
     "content",
     "string",
-    "HMACを計算する対象の文字列"
+    "The string content to compute HMAC for"
   ]
 ]}
 />
 
 ---
 
-## 戻り値
+## Return Value
 
-`APIResult<string>` — 計算された HMAC を返します。失敗した場合は `success: false` と共にエラーメッセージを含みます。
+`APIResult<string>` — Returns the calculated HMAC. If the operation fails, `success: false` is returned with an error message.
 
 ---
 
-## 使用例
+## Example Usage
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -52,7 +52,7 @@ if (result.success) {
 
 ---
 
-## 注意事項
+## Notes
 
-- この関数は同期的に実行されます。
-- secretKey が初期化時に適切でない場合、実行時にエラーとなる可能性があります。
+- This function executes synchronously.
+- If the `secretKey` is improperly configured during initialization, it may throw a runtime error.

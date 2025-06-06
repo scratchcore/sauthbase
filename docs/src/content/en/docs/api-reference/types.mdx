@@ -1,11 +1,11 @@
 ---
-title: 型定義と構造
-description: SAuthBase で使用される主要な型定義一覧
+title: Type Definitions
+description: List of main type definitions used in SAuthBase
 ---
 
-# 型定義一覧
+# Type Definitions
 
-`sauthbase` が提供する各種メソッドで使用される TypeScript 型定義の一覧です。
+A list of TypeScript type definitions used across various methods provided by `sauthbase`.
 
 ## APIResult
 
@@ -25,7 +25,7 @@ type APIResult<T> =
     };
 ```
 
-説明: 成功・失敗のレスポンス型。`success` フラグと合わせて `code` によってレスポンスの種類が識別可能。
+Description: Response type for both success and failure. The combination of `success` and `code` identifies the response type.
 
 ## sauthbaseOptions
 
@@ -36,7 +36,7 @@ interface sauthbaseOptions {
 }
 ```
 
-説明: `sauthbase.init()` に必要なオプション設定。
+Description: Options required for `sauthbase.init()`.
 
 ## userInfoProps
 
@@ -64,7 +64,7 @@ interface userInfoProps {
 };
 ```
 
-説明: Scratch ユーザーの基本情報。`getUser()` で返されます。
+Description: Basic user information from Scratch. Returned by `getUser()`.
 
 ## verifySessionProps
 
@@ -76,7 +76,7 @@ interface verifySessionProps {
 }
 ```
 
-説明: `verifySession()` で認証サーバーから返される検証結果の構造。
+Description: Structure of the verification result returned by the authentication server in `verifySession()`.
 
 ## verifySessionResponse
 
@@ -87,4 +87,4 @@ interface verifySessionResponse {
 }
 ```
 
-説明: `verifySession()` の成功時に返されるデータ構造。
+Description: Data structure returned on success from `verifySession()`.

@@ -1,31 +1,30 @@
 ---
-title: クイックスタート
-description: 存続のプロジェクトに SAuthBase SDK を導入して、Scratch アカウントとの連携機能を実装する方法をご紹介します。この作成ガイドでは、Hono, TypeScript を使用して、簡易的な認証機能を作成します。
+title: Quick Start
+description: Learn how to integrate the SAuthBase SDK into your project and implement Scratch account authentication. This tutorial demonstrates how to build a simple auth feature using Hono and TypeScript.
 ---
 
 import { Callout, FileTree, Steps } from "nextra/components";
 
-# 作成ガイド
+# Tutorial Guide
 
-## Hono, TypeScript アプリに SAuthBase を実装するガイド
+## Implementing SAuthBase in a Hono + TypeScript App
 
 <Callout type="info">
-  この作成ガイドでは、[Hono](https://hono.dev/),
-  [TypeScript](https://www.typescriptlang.org/)
-  を使用して、簡易的な認証機能を作成します。
+  This tutorial demonstrates how to build a basic authentication feature using [Hono](https://hono.dev/)
+  and [TypeScript](https://www.typescriptlang.org/).
 </Callout>
 
-### Hono のセットアップ
+### Setting Up Hono
 
-新しい Hono アプリを作成する最も簡単な方法は `create-hono`、 を使うことです。これにより、すべてが自動的に設定されます。プロジェクトを作成するには、以下を実行します。
+The easiest way to create a new Hono app is to use `create-hono`. This will automatically set up everything. To create a project, run the following:
 
-作成ガイドでは、ファイル名を `my-app` として進めます。必要に応じて変更してください。
+In this tutorial, we will use the directory name `my-app`. Please change it as needed.
 
 ```sh filename="terminal" npm2yarn
 npm create hono@latest
 ```
 
-インストール時に、次のプロンプトが表示されます。
+When installing, you will see the following prompts:
 
 ```sh filename="terminal" copy=false
 1. Target directory (my-app)
@@ -33,30 +32,29 @@ npm create hono@latest
 3. Do you want to install project dependencies? Yes / No
 ```
 
-1. ディレクトリの指定
+1. Specify the directory
 
-作成ディレクトリのパスを指定します。何も入力しなかった場合 `my-app` になります。
+Specify the path for the directory to be created. If you leave it blank, it will default to `my-app`.
 
-2. テンプレートの選択
+2. Choose a template
 
-矢印キーで上下に移動、または、文字を入力することでテンプレートを検索することができます。
-この作成ガイドに沿って作成をする場合は `nodejs` を選択してください。
+You can navigate with arrow keys or search by typing characters. For this tutorial, select `nodejs`.
 
-3. 依存関係のインストール
+3. Install dependencies
 
-結局インストールする必要があるので、どちらでもいいです。（Yes 推奨）
+You will need to install dependencies eventually, so either choice is fine. (Yes is recommended)
 
-### 作業ディレクトリの移動
+### Navigate to Your Working Directory
 
-先ほど作成された Hono アプリに移動します。
+Move to the Hono app you just created.
 
-`my-app` の部分は作成された Hono アプリのファイルパスを入れて実行してください。
+Replace `my-app` with the path to your created Hono app.
 
 ```sh filename="terminal"
 cd my-app
 ```
 
-現在のファイル構成は以下のようになっていることを確認してください。
+Confirm that your current file structure looks like this:
 
 <FileTree>
   <FileTree.Folder name="my-app" defaultOpen>
@@ -70,15 +68,15 @@ cd my-app
   </FileTree.Folder>
 </FileTree>
 
-### SAuthBase のインストール
+### Install SAuthBase
 
 ```sh filename="terminal" npm2yarn
 npm i sauthbase
 ```
 
-### 作業ファイル
+### Sample Working File
 
-このファイルに実装をしていきます。
+We will implement the functionality in this file.
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -102,9 +100,9 @@ serve(
 );
 ```
 
-### SAuthBase の初期化
+### Initialize SAuthBase
 
-`sauthbase` はプロジェクトで使用する前に一度だけ初期設定を行う必要があります。ルートファイル `src/index.ts` などで、初期化をしておくことをお勧めします。
+`sauthbase` requires initialization once before using it in your project. It is recommended to initialize it in a root file such as `src/index.ts`.
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -116,9 +114,9 @@ const sab = sauthbase.init({
 });
 ```
 
-### ログインエンドポイントの作成
+### Create Login Endpoint
 
-`/login` にアクセスをすると、Scratch Auth の認証ページにリダイレクトがされます。
+Accessing `/login` will redirect you to the Scratch Auth authentication page.
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -137,11 +135,11 @@ app.get("/login", (c) => {
 });
 ```
 
-### ユーザーセッションの検証エンドポイント
+### Create Session Verification Endpoint
 
-`/auth` では、ユーザーセッションを検証します。
+At `/auth`, the user session is verified.
 
-Scratch Auth サービスの認証機能は、リダイレクト先の URL に `privateCode` というクリエを追加してリダイレクトを行います。そのクリエを取得し、値を `verifySession` に渡して実行することで、セッションを検証することが出来ます。セッションの検証に成功すると、暗号化されたトークンを生成します。
+The Scratch Auth service appends a query parameter called `privateCode` to the redirect URL. You retrieve this code and pass it to `verifySession` to verify the session. If verification succeeds, an encrypted token is generated.
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -161,11 +159,11 @@ app.get("/auth", async (c) => {
 });
 ```
 
-### トークンの検証エンドポイント
+### Create Token Verification Endpoint
 
-`/verify` では、暗号化されたトークンを検証します。
+At `/verify`, the encrypted token is verified.
 
-暗号化されたトークンを検証して、ユーザー名を取得します。
+Verify the encrypted token and retrieve the username.
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -185,7 +183,7 @@ app.get("/verify", async (c) => {
 });
 ```
 
-### 完成したコードの確認
+### Full Example Code
 
 ```ts filename="src/index.ts" {3,6-9,15-22,24-32,34-42} showLineNumbers
 import { Hono } from "hono";
@@ -246,37 +244,37 @@ serve(
 
 <Steps>
 
-### 実際にテストする
+### Test the Application
 
-お疲れ様です。これで、簡易的な認証機能が完成しました。さっそく実際に動作確認をしてみましょう。
+Great job! You have now completed a basic authentication feature. Let's test it out.
 
 ```sh filename="terminal" npm2yarn
 npm run dev
 ```
 
-サーバーの起動に成功すると以下のようなログが表示されます。リンクにアクセスしてみましょう。
+When the server starts successfully, you will see the following log. Try accessing the link.
 
 ```sh filename="terminal" copy=false
 Server is running on http://localhost:3000
 ```
 
-#### `/login` ログインをする
+#### Access `/login`
 
-`/login` にアクセスしてみましょう！
+Try accessing `/login`!
 
-以下のような URL にリダイレクトされたら成功です。サインインできるアカウントがない場合は、Scratch Auth と Scratch アカウントを連携させてから再度お試しください。
+If you are redirected to a URL like the following, it's successful. If you don't have an account to sign in with, please link your Scratch Auth and Scratch accounts before trying again.
 
-サインインの準備ができたら、サインインするアカウントを選択してサインインしてください。
+Once ready to sign in, select the account you want to use and sign in.
 
 `https://auth.itinerary.eu.org/auth?redirect=*****&name=*****`
 
-#### `/auth` の確認
+#### Access `/auth`
 
-以下のような URL にリダイレクトされたら成功です。
+If you are redirected to a URL like the following, it's successful.
 
 `http://localhost:3000/auth?privateCode=*********`
 
-レスポンス JSON の `success` が `true` なら認証成功です。`data.token` には、生成されたトークンがあります。
+If the `success` field in the JSON response is `true`, authentication succeeded. The generated token is in `data.token`.
 
 ```json filename="Response" showLineNumbers copy=false
 {
@@ -293,11 +291,11 @@ Server is running on http://localhost:3000
 }
 ```
 
-#### `/verify` 暗号化されたトークンの検証
+#### Access `/verify` to Verify Token
 
-クリエ `token` に先ほど生成された、トークンを設定してアクセスしてください。
+Set the `token` query parameter with the token generated earlier and access this endpoint.
 
-レスポンス JSON の `success` が `true` なら認証成功です。`data` には、ユーザー名があります。
+If the `success` field in the JSON response is `true`, verification succeeded. The username is in `data`.
 
 ```json filename="Response" showLineNumbers copy=false
 {
@@ -308,6 +306,6 @@ Server is running on http://localhost:3000
 
 </Steps>
 
-### 最後に
+### Conclusion
 
-以上で、「SAuthBase, Hono, TypeScript 作成ガイド」の終了です。お疲れ様でした。
+This concludes the "SAuthBase, Hono, TypeScript Tutorial Guide". Thank you for your hard work.

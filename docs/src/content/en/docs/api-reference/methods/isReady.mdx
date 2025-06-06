@@ -1,19 +1,20 @@
 ---
 title: isReady
-description: sauthbase インスタンスが初期化済みかを確認します。
+description: Checks whether the sauthbase instance has been initialized.
 ---
 
 # isReady
 
 Type: `isReady(): boolean`
 
-`sauthbase.isReady()` は、SAuthBase SDK のインスタンスが初期化済みかどうかを判定するユーティリティメソッドです。
+`sauthbase.isReady()` is a utility method that checks whether the SAuthBase SDK instance has been initialized.
 
-## 説明
+## Description
 
-このメソッドは、`sauthbase.init()` によってインスタンスが初期化されているかを真偽値で返します。主に初期化前のチェックや、状態監視などに利用できます。
+This method returns a boolean indicating whether `sauthbase.init()` has already been called.  
+It is mainly used for pre-initialization checks or for monitoring internal state.
 
-## 使用例
+## Example Usage
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -22,11 +23,11 @@ import { sauthbase } from "sauthbase";
 const isInitialized = sauthbase.isReady();
 
 if (!isInitialized) {
-  console.error("SAuthBase はまだ初期化されていません。");
+  console.error("SAuthBase has not been initialized yet.");
 }
 ```
 
-## 返り値
+## Return Value
 
-- `true`: 初期化済み
-- `false`: 初期化されていない
+- `true`: The instance has been initialized.
+- `false`: The instance has not been initialized.

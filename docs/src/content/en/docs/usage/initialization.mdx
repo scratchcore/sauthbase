@@ -1,20 +1,20 @@
 ---
-title: 初期化
-description: SAuthBase SDK をプロジェクトで使用するための初期設定方法について説明します。
+title: Initialization
+description: This section explains how to perform the initial setup required to use the SAuthBase SDK in your project.
 ---
 
 import { Callout } from 'nextra/components';
 import { IconSettings } from '@tabler/icons-react';
 
-# 初期化
+# Initialization
 
-SAuthBase SDK を使用するには、まずアプリケーションのどこかで一度だけ `init()` メソッドを呼び出して初期化を行う必要があります。
+To use the SAuthBase SDK, you must call the `init()` method once somewhere in your application to initialize it.
 
-初期化には、認証に使用する `secretKey`（64文字のhex）と、認証完了後にリダイレクトされる `redirect_url` を指定します。
+Initialization requires specifying a `secretKey` (a 64-character hexadecimal string used for authentication) and a `redirect_url` to redirect to after authentication is complete.
 
 ---
 
-## 基本的な初期化
+## Basic Initialization
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -26,7 +26,7 @@ const sab = sauthbase.init({
 });
 ```
 
-初期化後はどこからでも `sauthbase.use()` によって同じインスタンスにアクセスできます。
+After initialization, you can access the same instance from anywhere using `sauthbase.use()`:
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -38,14 +38,14 @@ const result = sab.generationAuthPageUrl();
 
 ---
 
-## 注意点
+## Notes
 
 <Callout type="warning">
-  `init()` はアプリケーション内で一度しか呼び出さないでください。再度呼び出しても無視されます。
+  Only call `init()` once within your application. Subsequent calls will be ignored.
 </Callout>
 
-- `use()` は、`init()` が呼び出される前に使うとエラーになります。
-- 初期化済みかどうかを確認するには `sauthbase.isReady()` を使えます：
+- Calling `use()` before `init()` will result in an error.
+- To check whether initialization has been completed, use `sauthbase.isReady()`:
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -61,14 +61,14 @@ if (!sauthbase.isReady()) {
 
 ---
 
-## よくあるエラー
+## Common Errors
 
-| 状況                         | エラー内容                                | 解決方法                                  |
-|------------------------------|-------------------------------------------|-------------------------------------------|
-| `use()` を先に呼び出した     | `SAuthBase has not been initialized.` | `init()` を先に実行してください            |
-| `secretKey` が短い/未定義    | コンソールに警告が表示される             | 長さ64のhex文字列を使用してください        |
-| `init()` を複数回呼び出した | 初回のみ有効で、以降は無視される          | 正常です（副作用なし）                    |
+| Situation                      | Error Message                          | Solution                                      |
+|-------------------------------|----------------------------------------|-----------------------------------------------|
+| `use()` called before `init()` | `SAuthBase has not been initialized.` | Run `init()` first                            |
+| `secretKey` is too short/undefined | Warning appears in console            | Use a 64-character hexadecimal string         |
+| `init()` called multiple times | Only the first call takes effect       | This is normal behavior (no side effects)     |
 
 ---
 
-これで SAuthBase SDK の初期化が完了しました。
+You’ve now completed the initialization of the SAuthBase SDK.

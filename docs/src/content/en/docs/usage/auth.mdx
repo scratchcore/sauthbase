@@ -1,19 +1,19 @@
 ---
-title: 認証処理
-description: Scratch 認証後に返されるトークン（privateCode）を検証し、ユーザー情報を取得する方法を説明します。
+title: Authentication
+description: Explains how to verify the token (privateCode) returned after Scratch authentication and retrieve user information.
 ---
 
 import { Callout } from 'nextra/components';
 import { IconShieldCheck } from '@tabler/icons-react';
 
-# 認証処理
+# Authentication
 
-Scratch 認証が完了すると、リダイレクト先の URL に `privateCode` がクエリとして付加されます。  
-この値を使って `verifySession()` を呼び出すことで、ユーザーセッションの正当性を確認し、ユーザー情報やセッションIDを取得することができます。
+Once Scratch authentication is complete, the `privateCode` is appended as a query parameter to the redirect URL.  
+Using this value, you can call `verifySession()` to validate the user session and retrieve user information and the session ID.
 
 ---
 
-## ユーザーセッションの検証方法
+## How to Verify the User Session
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -33,7 +33,7 @@ app.get("/auth", async (c) => {
 });
 ```
 
-ユーザーセッションが有効かつトークンの生成に成功したのであれば、以下のようなレスポンスが返ってきます。
+If the user session is valid and token generation succeeds, the following response will be returned:
 
 ```json filename="Response" showLineNumbers copy=false
 {
@@ -52,23 +52,23 @@ app.get("/auth", async (c) => {
 
 ---
 
-## 検証の内部動作
+## Internal Behavior of Verification
 
-`verifySession()` は以下の条件をチェックしています：
+`verifySession()` checks the following conditions:
 
-- `privateCode` が空でないか
-- 外部認証APIとの通信が成功するか
-- `redirect_url` が一致しているか
-- `valid` フラグが true か
+- `privateCode` is not empty
+- Communication with the external auth API is successful
+- `redirect_url` matches
+- The `valid` flag is true
 
-全て満たされた場合のみ認証が成功と判定されます。
+Only if all conditions are met is the session considered authenticated.
 
 ---
 
-## エラー例と対応
+## Error Examples and Handling
 
-| エラー内容 | 原因 | 対処法 |
-|------------|------|--------|
-| 検証する値が設定されていません。 | `privateCode` が undefined | クエリに privateCode が含まれているか確認 |
-| 認証システムへのアクセスに失敗しました。 | API接続失敗 | ネットワークやURLを確認 |
-| セッションの認証に失敗しました。 | セッション不一致、無効 | redirect_url が正しく設定されているか確認 |
+| Error Message                              | Cause                              | Solution                                                |
+|-------------------------------------------|------------------------------------|---------------------------------------------------------|
+| No value provided for verification.        | `privateCode` is undefined         | Ensure the query includes the `privateCode`             |
+| Failed to access the authentication system. | API connection failed              | Check network or API endpoint URL                       |
+| Session authentication failed.            | Session mismatch or invalid state | Ensure the `redirect_url` is set correctly              |

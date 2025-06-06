@@ -1,6 +1,6 @@
 ---
 title: getUser
-description: 指定した Scratch ユーザー名からプロフィール情報を取得します。
+description: Retrieves profile information for the specified Scratch username.
 ---
 
 import { OptionTable } from "@/components/_table"
@@ -9,7 +9,7 @@ import { OptionTable } from "@/components/_table"
 
 Type: `getUser(username: string): Promise<APIResult<userInfoProps>>`
 
-`getUser()` は、指定された Scratch ユーザー名に対応するプロフィール情報（ID、アイコン、コメント数など）を Scratch API 経由で取得するメソッドです。
+`getUser()` retrieves profile information (such as ID, avatar, join date, etc.) for the specified Scratch username via the Scratch API.
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -19,23 +19,23 @@ const sab = sauthbase.use();
 const userInfo = await sab.getUser("griffpatch");
 ```
 
-## 引数
+## Parameters
 
 <OptionTable
 options={[
   [
     "username",
     "string",
-    "対象とする Scratch のユーザー名"
+    "The Scratch username to fetch information for"
   ]
 ]}
 />
 
-## 戻り値
+## Return Value
 
-- `Promise<APIResult<userInfoProps>>`: 成功時は `data` にプロフィール情報を含みます。失敗時はエラー詳細を含むレスポンス。
+- `Promise<APIResult<userInfoProps>>`: On success, the profile information is returned in the `data` field. On failure, an error response is returned.
 
-## 使用例
+## Example Usage
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -44,13 +44,13 @@ import { sauthbase } from "sauthbase";
 const userInfo = await sauthbase.use().getUser("scratchteam");
 
 if (userInfo.success) {
-  console.log(userInfo.data); // Scratchユーザーの詳細情報
+  console.log(userInfo.data); // Scratch user profile information
 } else {
   console.error(userInfo.message);
 }
 ```
 
-## 注意点
+## Notes
 
-- 指定したユーザーが存在しない場合や、Scratch API が応答しない場合は `success: false` になります。
-- 取得できる情報は Scratch API の仕様に依存します。
+- If the specified user does not exist or the Scratch API does not respond, the result will have `success: false`.
+- The returned data depends on the Scratch API specification.

@@ -1,21 +1,21 @@
 ---
-title: 暗号処理
-description: セッションIDやユーザー名の安全なやり取りのために、SAuthBase の暗号化・復号・HMAC 機能を使用する方法を説明します。
+title: Encryption
+description: Learn how to use the SAuthBase encryption, decryption, and HMAC features to securely handle session IDs and usernames.
 ---
 
 import { Callout } from 'nextra/components';
 import { IconLock } from '@tabler/icons-react';
 
-# 暗号処理
+# Encryption
 
-SAuthBase SDK には、HMAC、AES-GCM 暗号化、および復号化のための機能が用意されています。  
-セッションIDやアカウント情報などのデータを安全に扱うために活用できます。
+The SAuthBase SDK provides functions for HMAC, AES-GCM encryption, and decryption.  
+These features can be used to securely handle data such as session IDs and account information.
 
 ---
 
-## HMACの計算
+## HMAC Calculation
 
-データの改ざん検知やトークン生成の検証などに使用できます。
+This can be used for tamper detection or verifying token generation.
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -23,14 +23,14 @@ import { sauthbase } from "sauthbase";
 const sab = sauthbase.use();
 // ---cut---
 const result = sab.calculateHmac("example");
-console.log(result.data); // 16進数のハッシュ
+console.log(result.data); // Hexadecimal hash
 ```
 
 ---
 
-## データの暗号化
+## Encrypting Data
 
-AES-256-GCM を用いてデータを暗号化できます。
+You can encrypt data using AES-256-GCM.
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -38,17 +38,17 @@ import { sauthbase } from "sauthbase";
 const sab = sauthbase.use();
 // ---cut---
 const encrypted = sab.encrypt("username|hmac");
-console.log(encrypted.data); // iv:encrypted:authTag の形式
+console.log(encrypted.data); // Format: iv:encrypted:authTag
 ```
 
-- 成功時は文字列形式で暗号化されたデータが返ります。
-- 複合化との組み合わせで安全なやり取りが可能です。
+- Returns encrypted data as a string if successful.
+- Use together with decryption for secure communication.
 
 ---
 
-## データの復号
+## Decrypting Data
 
-暗号化された文字列を復号して元のデータに戻します。
+Decrypt encrypted strings and restore the original data.
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -57,17 +57,17 @@ const sab = sauthbase.use();
 const encrypted = sab.encrypt("username|hmac");
 // ---cut---
 const decrypted = sab.decrypt(encrypted.data);
-console.log(decrypted.data); // 元の username|hmac
+console.log(decrypted.data); // Original username|hmac
 ```
 
-- 暗号フォーマットが不正な場合は失敗します。
-- 認証トークンなどの中身を検証する際に使用します。
+- Fails if the encrypted format is invalid.
+- Useful for verifying authentication token contents.
 
 ---
 
-## 応用：ユーザー名から暗号トークンを生成
+## Example: Generate Encrypted Token from Username
 
-`generateEncryptedToken()` を使用すると、ユーザー名を HMAC とともに暗号化できます。
+Using `generateEncryptedToken()`, you can encrypt a username with its HMAC.
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -75,12 +75,12 @@ import { sauthbase } from "sauthbase";
 const sab = sauthbase.use();
 // ---cut---
 const token = await sab.generateEncryptedToken("exampleUser");
-console.log(token.data); // 復号して検証可能な安全なトークン
+console.log(token.data); // Secure token that can be decrypted and verified
 ```
 
 ---
 
-## 応用：暗号トークンからセッションID・ユーザー名を抽出
+## Example: Extract Session ID and Username from Token
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -92,13 +92,13 @@ const sessionId = await sab.extractUserWithVerify(token.data);
 const username = sab.extractUserUnsafe(token.data);
 ```
 
-- `extractUserWithVerify()` は HMAC チェックも含みます
-- `extractUserUnsafe()` はユーザー名だけを抽出します（検証なし）
+- `extractUserWithVerify()` also performs HMAC validation.
+- `extractUserUnsafe()` extracts only the username (no verification).
 
 ---
 
 <Callout type="info">
-  `calculateHmac()` は暗号化後の改ざん防止、`encrypt()`/`decrypt()` は機密保持、`extractUserWithVerify()`/`extractUserUnsafe()` はセッション連携に活用できます。
+  Use `calculateHmac()` for tamper protection, `encrypt()`/`decrypt()` for confidentiality, and `extractUserWithVerify()`/`extractUserUnsafe()` for session integration.
 </Callout>
 
-これで暗号処理の基本は完了です。
+You have now completed the basics of encryption.

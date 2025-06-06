@@ -8,8 +8,8 @@ import { getPageMap } from "nextra/page-map";
 import { Banner, Head } from "nextra/components";
 import { Footer, LastUpdated, Layout, Navbar } from "nextra-theme-docs";
 import cn from "clsx";
-import { getDocsVersionSpace } from "@/lib/docs-version";
 import { IconMessages } from "@tabler/icons-react";
+import { getDocsVersionSpace } from "@/lib/docs-version";
 import { getDictionary, getDirection } from "../_dictionaries/get-dictionary";
 
 type LayoutProps = Readonly<{
@@ -19,14 +19,15 @@ type LayoutProps = Readonly<{
   }>;
 }>;
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: LayoutProps): Promise<Metadata> {
+  const { lang } = await params;
+  const dictionary = await getDictionary(lang);
+
   return {
-    title: {
-      default: "SAuthBase - Scratch Auth Base SDK by ScratchCore",
-      template: "%s - SAuthBase",
-    },
-    description:
-      "Scratch Auth Base SDK（SAuthBase, SAuthBase SDK）は、Scratch プロジェクトやサービスにおいて、認証機能を安全かつ簡潔に導入するためのモジュール型 SDK です。セッションの検証、ユーザー識別の暗号化などを一貫して提供し、開発者の導入負担を軽減します。",
+    title: dictionary.meta.title,
+    description: dictionary.meta.description,
     icons: {
       icon: "/wp-content/brand/sauthbase/logo-nobg.256x256.ico",
       apple: "/wp-content/brand/sauthbase/logo-nobg.256x256.png",
@@ -128,9 +129,9 @@ export default async function RootLayout({ children, params }: LayoutProps) {
             docsConfig.github.repo
           }/tree${getDocsVersionSpace("/")}/docs`}
           feedback={{
-            content: "ご質問ですか？フィードバックをお寄せください ",
+            content: dictionary.feedback.content,
           }}
-          editLink="GitHubでこのページを編集する"
+          editLink={dictionary.editLink}
           sidebar={{
             autoCollapse: true,
             toggleButton: true,
@@ -143,7 +144,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
           toc={{
             backToTop: dictionary.backToTop,
             extraContent: true,
-            title: "このページ",
+            title: dictionary.toc.title,
           }}
           themeSwitch={{
             dark: dictionary.dark,

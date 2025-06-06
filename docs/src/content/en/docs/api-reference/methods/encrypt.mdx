@@ -1,6 +1,6 @@
 ---
 title: encrypt
-description: AES-GCM アルゴリズムを使用して文字列データを暗号化するメソッドです。
+description: Encrypts a plaintext string using the AES-GCM algorithm.
 ---
 
 import { OptionTable } from "@/components/_table"
@@ -9,13 +9,13 @@ import { OptionTable } from "@/components/_table"
 
 Type: `encrypt(content: string): APIResult<string>`
 
-`encrypt()` は、渡された文字列データを AES-GCM アルゴリズムで暗号化します。
+The `encrypt()` method encrypts a given string using the AES-GCM algorithm.
 
 ---
 
-## 概要
+## Overview
 
-このメソッドはセキュリティ強化のため、AES-GCM アルゴリズムと 96 ビット IV（初期化ベクトル）を使用してデータを暗号化します。結果は以下の形式で返されます：
+This method enhances security by encrypting data using the AES-GCM algorithm with a 96-bit Initialization Vector (IV). The result is returned in the following format:
 
 ```
 iv:encryptedData:authTag
@@ -23,28 +23,28 @@ iv:encryptedData:authTag
 
 ---
 
-## 引数
+## Parameters
 
 <OptionTable
 options={[
   [
     "content",
     "string",
-    "暗号化したいプレーンテキスト"
+    "The plaintext string to encrypt"
   ]
 ]}
 />
 
 ---
 
-## 戻り値
+## Return Value
 
-- 成功時: 暗号化された文字列を含む `APIResult<string>` オブジェクト。
-- 失敗時: エラー内容を含む `APIResult<string>` オブジェクト。
+- On success: Returns an `APIResult<string>` object containing the encrypted string.
+- On failure: Returns an `APIResult<string>` object with error information.
 
 ---
 
-## 使用例
+## Example Usage
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -60,7 +60,7 @@ if (encrypted.success) {
 
 ---
 
-## 注意事項
+## Notes
 
-- `secretKey` は `hex` 形式の 64 文字（32 バイト）である必要があります。
-- このメソッドは同期的に実行されます。
+- The `secretKey` must be a 64-character (32-byte) hexadecimal string.
+- This method executes synchronously.

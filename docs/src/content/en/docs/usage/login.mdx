@@ -1,20 +1,20 @@
 ---
-title: ログインページ生成
-description: ScratchAuthBase を使用して Scratch 認証ページの URL を生成する方法を説明します。
+title: Generate Login Page
+description: Explains how to generate a Scratch authentication URL using ScratchAuthBase.
 ---
 
 import { Callout } from 'nextra/components';
 import { IconLogin } from '@tabler/icons-react';
 
-# ログインページ生成
+# Generate Login Page
 
-SAuthBase SDK では、`generationAuthPageUrl()` メソッドを使用することで、Scratch 認証ページへのリダイレクト URL を簡単に生成できます。
+The SAuthBase SDK provides the `generationAuthPageUrl()` method, which allows you to easily generate a redirect URL to the Scratch authentication page.
 
-この URL にユーザーをリダイレクトさせることで、Scratch アカウントによる認証が可能になります。
+Redirecting users to this URL enables authentication using their Scratch account.
 
 ---
 
-## 基本的な使い方
+## Basic Usage
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -25,22 +25,21 @@ const sab = sauthbase.use();
 const result = sab.generationAuthPageUrl("My App");
 ```
 
-このメソッドは、以下のような URL を返します：
+This method returns a URL like the following:
 
 `https://auth.itinerary.eu.org/auth/?redirect=..&name=..`
 
-`redirect_url` は `init()` 時に設定した URL が使用されます。
+The `redirect_url` specified during `init()` will be used here.
 
 ---
 
-## 実装例：ルーティングで使用
+## Example: Using in a Router
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
 import { Hono } from "hono";
 import { sauthbase } from "sauthbase";
 const app = new Hono();
-import { sauthbase } from "sauthbase";
 const sab = sauthbase.use();
 // ---cut---
 app.get("/login", (c) => {
@@ -53,19 +52,19 @@ app.get("/login", (c) => {
 });
 ```
 
-このように `/login` にアクセスすることで、自動的に認証ページに遷移させることができます。
+By accessing `/login`, users will be automatically redirected to the authentication page.
 
 ---
 
-## 注意点
+## Notes
 
 <Callout type="info">
-  `generationAuthPageUrl()` は Base64 でリダイレクト URL をエンコードしています。改ざんを避けるため、サーバー側で生成するようにしてください。
+  `generationAuthPageUrl()` encodes the redirect URL using Base64. To avoid tampering, it should be generated on the server side.
 </Callout>
 
-- 引数の `title` は認証ページの見出しとして表示されます。設定しない場合は `"ScratchCore"` が使用されます。
-- `redirect_url` が未初期化の場合、正しく URL が生成されません。
+- The `title` argument will be displayed as the heading on the authentication page. If omitted, `"ScratchCore"` is used by default.
+- If `redirect_url` has not been initialized, the URL will not be generated correctly.
 
 ---
 
-認証が完了すると、`privateCode` を含んだリダイレクトが行われます。  
+After authentication is completed, the user will be redirected with a `privateCode` parameter.  

@@ -1,18 +1,18 @@
 ---
-title: sauthbase クラス
+title: sauthbase Class
 ---
 
-# sauthbase クラス
+# sauthbase Class
 
-`sauthbase` は SDK のメインクラスであり、すべての認証・暗号処理機能のインターフェースを提供します。
+`sauthbase` is the main class of the SDK and provides the interface for all authentication and encryption functionalities.
 
-## 概要
+## Overview
 
-- シングルトンで動作
-- `init()` で初期化、`use()` で使用
-- `secretKey` および `redirect_url` を引数に初期化
+- Operates as a singleton
+- Use `init()` to initialize, and `use()` to access the instance
+- Requires `secretKey` and `redirect_url` as arguments during initialization
 
-## 初期化
+## Initialization
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -21,7 +21,7 @@ import { sauthbase } from "sauthbase";
 const sab = sauthbase.init({ secretKey: "...", redirect_url: "..." });
 ```
 
-## 使用
+## Usage
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -30,7 +30,7 @@ import { sauthbase } from "sauthbase";
 const sab = sauthbase.use();
 ```
 
-## 主なメソッド一覧
+## Main Method List
 
 - [init()](./methods/init)
 - [use()](./methods/use)
@@ -46,4 +46,4 @@ const sab = sauthbase.use();
 - [extractUserWithVerify()](./methods/extractUserWithVerify)
 - [extractUserUnsafe()](./methods/extractUserUnsafe)
 
-各メソッドの詳細は [methods](./methods) セクションを参照してください。
+For detailed information about each method, refer to the [methods](./methods) section.

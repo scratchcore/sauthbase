@@ -1,6 +1,6 @@
 ---
 title: init
-description: SAuthBase インスタンスを初期化します。
+description: Initializes the SAuthBase instance.
 ---
 
 import { OptionTable } from "@/components/_table"
@@ -9,27 +9,28 @@ import { OptionTable } from "@/components/_table"
 
 Type: `init(options: sauthbaseOptions): sauthbase`
 
-`init()` メソッドは `sauthbase` クラスのインスタンスを初期化します。この初期化はアプリケーション全体で一度だけ行うことを想定しています。
+The `init()` method initializes the `sauthbase` class instance.  
+This should only be called once during the lifecycle of your application.
 
-## 引数
+## Parameters
 
 <OptionTable
 options={[
   [
     "options",
     "sauthbaseOptions",
-    "`secretKey` と `redirect_url` を含むオブジェクト"
+    "An object containing `secretKey` and `redirect_url`"
   ]
 ]}
 />
 
-`secretKey` は暗号化処理に使用され、`redirect_url` は認証後にリダイレクトされる先の URL を指定します。
+`secretKey` is used for encryption, and `redirect_url` specifies the destination URL after authentication.
 
-## 返り値
+## Return Value
 
-`sauthbase` のインスタンスが返されます。
+Returns the `sauthbase` instance.
 
-## 使用例
+## Example Usage
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -41,7 +42,7 @@ const sab = sauthbase.init({
 });
 ```
 
-## 注意事項
+## Notes
 
-- `init` は一度だけ呼び出すことを推奨します。
-- 2回目以降の呼び出しでは、すでに生成されたインスタンスが返されます。
+- It is recommended to call `init` only once.
+- On subsequent calls, the already-initialized instance will be returned.

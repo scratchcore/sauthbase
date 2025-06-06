@@ -1,5 +1,4 @@
 import type { MetaRecord } from "nextra";
-import { title } from "process";
 
 /**
  * type MetaRecordValue =

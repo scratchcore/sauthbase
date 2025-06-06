@@ -1,6 +1,6 @@
 ---
-title: 使用方法
-description: このセクションでは、SAuthBase SDK の主な機能の使い方を簡潔に紹介します。
+title: Usage
+description: This section provides a concise overview of how to use the core features of the SAuthBase SDK.
 asIndexPage: true
 ---
 
@@ -13,44 +13,44 @@ import {
   IconLock,
 } from '@tabler/icons-react';
 
-# 使用方法
+# Usage
 
-このセクションでは、**SAuthBase SDK の各機能をどのように使うか**を簡潔に紹介します。  
-まずは初期化から始めて、ログインページ生成、認証、暗号化といったステップを順番に学べます。
+This section provides a concise overview of **how to use each feature of the SAuthBase SDK**.  
+You’ll learn the steps sequentially, starting from initialization, to generating a login page, performing authentication, and handling encryption.
 
 ---
 
-## 機能一覧
+## Feature Overview
 
 <Cards>
   <Cards.Card
     icon={<IconSettings />}
-    title="初期化"
+    title="Initialization"
     href="/docs/usage/initialization"
-    description="SDKの使用前に必要な初期設定（init/use/isReady）の使い方を解説します。"
+    description="Explains how to perform the required initial setup (init/use/isReady) before using the SDK."
   />
   <Cards.Card
     icon={<IconLogin />}
-    title="ログインページ生成"
+    title="Generate Login Page"
     href="/docs/usage/login"
-    description="認証に使用する Scratch Auth ページのURLを動的に生成する方法を紹介します。"
+    description="Introduces how to dynamically generate the Scratch Auth page URL used for authentication."
   />
   <Cards.Card
     icon={<IconShieldCheck />}
-    title="セッションの検証"
+    title="Session Verification"
     href="/docs/usage/auth"
-    description="ログイン後の privateCode を検証し、ユーザー情報とセッションIDを取得します。"
+    description="Verifies the privateCode returned after login and retrieves user info and session ID."
   />
   <Cards.Card
     icon={<IconUserShield />}
-    title="トークンの検証"
+    title="Token Verification"
     href="/docs/usage/verify"
-    description="暗号化されたトークンを検証をして、ユーザー名を取得します。"
+    description="Validates an encrypted token and retrieves the associated username."
   />
   <Cards.Card
     icon={<IconLock />}
-    title="暗号化・復号"
+    title="Encryption / Decryption"
     href="/docs/usage/encryption"
-    description="ユーザー名やセッションIDなどのデータを安全に暗号化・復号・HMAC計算する方法です。"
+    description="Describes how to securely encrypt/decrypt data such as usernames or session IDs, including HMAC calculation."
   />
 </Cards>

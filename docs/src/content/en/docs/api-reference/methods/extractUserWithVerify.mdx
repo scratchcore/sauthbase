@@ -1,6 +1,6 @@
 ---
 title: extractUserWithVerify
-description: 暗号化トークンを復号し、HMAC検証を行ってユーザー名を安全に取得します。
+description: Decrypts an encrypted token and verifies HMAC to securely retrieve the username.
 ---
 
 import { OptionTable } from "@/components/_table"
@@ -9,7 +9,7 @@ import { OptionTable } from "@/components/_table"
 
 Type: `extractUserWithVerify(content?: string): Promise<APIResult<string>>`
 
-`extractUserWithVerify()` は、暗号化されたトークンからユーザー名を復号し、HMAC を使って改ざんが行われていないことを検証します。安全性を重視する場合に使用します。
+`extractUserWithVerify()` decrypts an encrypted token and verifies its HMAC to ensure it hasn't been tampered with. This method should be used when security is a priority.
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -18,23 +18,23 @@ import { sauthbase } from "sauthbase";
 const result = await sauthbase.use().extractUserWithVerify(token);
 ```
 
-## パラメータ
+## Parameters
 
 <OptionTable
 options={[
   [
     "content",
     "string",
-    "暗号化されたトークン"
+    "Encrypted token"
   ]
 ]}
 />
 
-## 戻り値
+## Return Value
 
-- `Promise<APIResult<string>>`: ユーザー名を含む結果オブジェクト（成功時）またはエラー情報を含むオブジェクト（失敗時）
+- `Promise<APIResult<string>>`: On success, returns an object containing the username. On failure, returns an object with error information.
 
-## 使用例
+## Example Usage
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -44,13 +44,13 @@ const token = "encrypted-token-example";
 const result = await sauthbase.use().extractUserWithVerify(token);
 
 if (result.success) {
-  console.log("ユーザー名:", result.data);
+  console.log("Username:", result.data);
 } else {
-  console.error("エラー:", result.code, result.message);
+  console.error("Error:", result.code, result.message);
 }
 ```
 
-## 注意点
+## Notes
 
-- セキュアな用途では必ずこちらを使用してください。
-- 改ざんの検出が可能なため、トークンの信頼性を高く保てます。
+- Always use this method for secure operations.
+- HMAC verification ensures the integrity and trustworthiness of the token.

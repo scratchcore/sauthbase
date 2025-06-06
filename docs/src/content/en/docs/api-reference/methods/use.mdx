@@ -1,37 +1,37 @@
 ---
 title: use
-description: 初期化された sauthbase インスタンスを取得します。
+description: Retrieves the initialized sauthbase instance.
 ---
 
 # use
 
 Type: `use(): sauthbase`
 
-`use()` メソッドは、初期化された `sauthbase` インスタンスを取得するための静的メソッドです。
+The `use()` method is a static function used to retrieve the initialized `sauthbase` instance.
 
-`sauthbase.init()` によってインスタンスが初期化されていない状態で呼び出すと、例外がスローされます。
+If it is called before the instance is initialized using `sauthbase.init()`, an exception will be thrown.
 
 ---
 
-## 使用例
+## Example Usage
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
 import { sauthbase } from "sauthbase";
 
 const sab = sauthbase.use();
-console.log(sab); // sauthbase インスタンスが表示されます
+console.log(sab); // Displays the sauthbase instance
 ```
 
 ---
 
-## 返り値
+## Return Value
 
-- `sauthbase` のインスタンス
+- The `sauthbase` instance
 
 ---
 
-## 注意事項
+## Notes
 
-- このメソッドは `sauthbase.init()` を使用してインスタンスが初期化されていない場合、`Error: SAuthBase has not been initialized.` をスローします。
-- インスタンスの再利用やグローバルアクセスに便利なユーティリティです。
+- This method throws `Error: SAuthBase has not been initialized.` if called before `sauthbase.init()` has been executed.
+- It is a useful utility for reusing or globally accessing the instance.

@@ -1,15 +1,15 @@
 ---
-title: トークンの検証
-description: 暗号化されたトークンを検証して、ユーザー名を取得する方法を説明します。
+title: Token Verification
+description: Learn how to verify an encrypted token and retrieve the associated username.
 ---
 
-# トークンの検証をする
+# Token Verification
 
-暗号化されたトークンを `extractUserWithVerify()` を呼び出す事で、トークンの正当性を確認して、ユーザー名を取得する事ができます。
+You can verify the validity of an encrypted token and retrieve the username by calling the `extractUserWithVerify()` method.
 
 ---
 
-## 暗号化されたトークンの検証方法
+## How to Verify the Encrypted Token
 
 ```ts filename="src/index.ts" showLineNumbers twoslash
 // @noErrors
@@ -29,7 +29,7 @@ app.get("/verify", async (c) => {
 });
 ```
 
-トークンが有効であれば、以下のようなレスポンスが返ってきます。
+If the token is valid, a response like the following will be returned:
 
 ```json filename="Response" showLineNumbers copy=false
 {
@@ -40,20 +40,20 @@ app.get("/verify", async (c) => {
 
 ---
 
-## 検証の内部動作
+## Internal Behavior of Verification
 
-`extractUserWithVerify()` は以下の条件をチェックしています：
+`extractUserWithVerify()` checks the following conditions:
 
-- トークンが設定されているか
-- トークンが改変されていないか
+- Whether a token is provided
+- Whether the token has been tampered with
 
-全て満たされた場合のみ認証が成功と判定されます。
+Authentication is only considered successful if all conditions are met.
 
 ---
 
-## エラー例と対応
+## Error Examples and Solutions
 
-| エラー内容 | 原因 | 対処法 |
-|------------|------|--------|
-| トークンが指定されていません | 引数にトークンを追加していないから | 引数を追加する |
-| トークン形式が無効です | 形式無効 | トークンが改変されていないか確認 |
+| Error Message                   | Cause                        | Solution                            |
+|--------------------------------|------------------------------|-------------------------------------|
+| Token not provided              | Token argument is missing    | Add the token argument              |
+| Invalid token format            | Format is incorrect          | Ensure the token hasn't been altered |

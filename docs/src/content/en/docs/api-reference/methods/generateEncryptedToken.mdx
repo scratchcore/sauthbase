@@ -1,6 +1,6 @@
 ---
 title: generateEncryptedToken
-description: 指定されたユーザー名から暗号化トークンを生成します。
+description: Generates an encrypted token from the specified username.
 ---
 
 import { OptionTable } from "@/components/_table"
@@ -9,7 +9,7 @@ import { OptionTable } from "@/components/_table"
 
 Type: `generateEncryptedToken(content?: string): Promise<APIResult<string>>`
 
-`generateEncryptedToken()` は、指定された Scratch ユーザー名を元に HMAC を付与し、それを AES-GCM で暗号化したトークン文字列を生成する非同期メソッドです。
+`generateEncryptedToken()` is an asynchronous method that generates an encrypted token string by adding an HMAC to the specified Scratch username and then encrypting it using AES-GCM.
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -18,23 +18,23 @@ import { sauthbase } from "sauthbase";
 const result = await sauthbase.use().generateEncryptedToken("exampleUser");
 ```
 
-## 引数
+## Parameters
 
 <OptionTable
 options={[
   [
     "content",
     "string",
-    "暗号化対象の Scratch ユーザー名"
+    "Scratch username to encrypt"
   ]
 ]}
 />
 
-## 戻り値
+## Return Value
 
-- `Promise<APIResult<string>>` — 成功時は暗号化済みのセッションID（トークン）を含むオブジェクト
+- `Promise<APIResult<string>>` — On success, returns an object containing the encrypted session ID (token)
 
-## 使用例
+## Example Usage
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
@@ -48,7 +48,7 @@ if (result.success) {
 }
 ```
 
-## 注意点
+## Notes
 
-- トークンは `extractUserWithVerify()` を用いることで復号および改ざんチェックが可能です。
-- このトークンはクライアントのローカルストレージやクッキーに保存し、後続のセッション確認等に利用されます。
+- The token can be decrypted and verified for tampering using `extractUserWithVerify()`.
+- This token is intended to be stored in localStorage or cookies on the client side for later session validation.

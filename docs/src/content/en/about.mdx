@@ -1,69 +1,70 @@
 ---
 title: About
-description: SAuthBase SDK の開発の背景と歩み
+description: Background and history of the SAuthBase SDK development
 ---
 
 # About
 
-SAuthBase（Scratch Auth Base SDK）は、Scratch プロジェクトやその関連サービスにシームレスな認証機能を提供する SDK です。セッション検証やユーザー識別の暗号化など、セキュアな認証機構を簡潔に導入できます。
+SAuthBase (Scratch Auth Base SDK) is an SDK that provides seamless authentication functionality for Scratch projects and related services. It enables secure session validation, user identification encryption, and more with simple integration.
 
-## ドキュメント
+## Documentation
 
-📘 最新の利用方法や API 詳細は公式ドキュメントサイトでご覧いただけます。  
+📘 Visit the official documentation site for the latest usage and API details.  
 🔗 [https://sauthbase.scratchcore.org](https://sauthbase.scratchcore.org)
 
-### ドキュメントへの貢献を歓迎します
+### Contributions to the Documentation Are Welcome
 
-SAuthBase のドキュメントは、ユーザーと開発者がともに改善していくオープンなリファレンスです。
+The SAuthBase documentation is an open reference that both users and developers can improve together.
 
-開発者視点では見落としがちな点や、初めて使う方だからこそ気づける表現の曖昧さ・疑問点などを発見していただけるかもしれません。誤字修正から具体例の追加、説明の明確化まで、どんな小さな貢献も大歓迎です！
+You may discover unclear expressions or questions that developers might overlook, especially if you're using the SDK for the first time. Any contributions are welcome, from typo corrections to adding concrete examples or clarifying explanations.
 
-GitHub 上で Issue や Pull Request を通じて、ぜひご提案ください。
+Please feel free to suggest improvements via Issues or Pull Requests on GitHub.
 
-## 開発の経緯
+## Development History
 
-- **2024 年 3 月**  
-  初の認証支援パッケージとして 桐生トア氏によって、`Scratch Auth React` を開発。React ベースの UI コンポーネントと認証処理を提供していましたが、Scratch 側の仕様変更などにより動作が不安定となり、根本的な改良の必要性が生まれました。
+- **March 2024**  
+  The initial authentication support package, `Scratch Auth React`, was developed by Toa Kiryu. It offered React-based UI components and authentication processes. However, due to changes in Scratch's specifications, the system became unstable, leading to the need for fundamental improvements.
 
-- **2024 年 10 月**  
-  改良版として 桐生トア氏が、`Scratch Auth with Next.js` を発表。コード構造と UI を全面的に再設計し、よりモダンな構成を採用しましたが、開発が難航し、最終的に終了となりました。
+- **October 2024**  
+  As an improved version, Toa Kiryu released `Scratch Auth with Next.js`. The entire code structure and UI were redesigned using a modern architecture, but development became difficult and was eventually discontinued.
 
-- **2025 年 1 月**  
-  第三のプロジェクトとして 桐生トア氏が、 `scratch-auth-component` を計画。一部の設計と開発が進められたものの、やがて忘れ去られ、中断されました。
+- **January 2025**  
+  A third project, `scratch-auth-component`, was planned by Toa Kiryu. Some design and development were initiated but eventually forgotten and paused.
 
-- **2025 年 5 月**  
-  桐生トア氏によって、新たに Scratch 関連技術の開発を進めるための組織「**ScratchCore**」が設立。その最初の公式プロジェクトとして `Scratch Auth Base SDK (SAuthBase)` の開発がスタート。過去の知見を集約し、堅牢で拡張性のある構造を備えた認証 SDK を目指しています。
+- **May 2025**  
+  Toa Kiryu founded a new organization, **ScratchCore**, to promote the development of Scratch-related technologies. As its first official project, the development of `Scratch Auth Base SDK (SAuthBase)` began. It aims to be a robust and extensible authentication SDK, leveraging past learnings.
 
-## 今後の展望
+## Future Plans
 
-- トークンストレージや再認証など、SDK の拡張機能追加
-- Vue / Svelte など他フレームワークへの対応
-- Scratch 以外のサービスでの応用と拡張
+- Add SDK extensions such as token storage and re-authentication
+- Support for other frameworks like Vue and Svelte
+- Expand applicability beyond Scratch-related services
 
-## チーム
+## Team
 
-現在、このプロジェクトは [ScratchCore](https://github.com/scratchcore) によってメンテナンスされています。[貢献者の全リスト](https://github.com/scratchcore/sauthbase/graphs/contributors)は GitHub でご確認いただけます 。
+This project is currently maintained by [ScratchCore](https://github.com/scratchcore).  
+You can view the [full list of contributors](https://github.com/scratchcore/sauthbase/graphs/contributors) on GitHub.
 
-## クレジット
+## Credits
 
-SAuthBase は、以下の優れたオープンソース技術の恩恵を受けています：
+SAuthBase benefits from the following outstanding open-source technologies:
 
-- [Hono](https://hono.dev): 高速かつ軽量な Web フレームワーク
-- [React](https://react.dev): UI のための宣言的ライブラリ
-- [Next.js](https://nextjs.org): フルスタックな Web アプリケーションフレームワーク
-- [Auth Itinerary](https://auth.itinerary.eu.org): セキュアなトークン仕様に基づくプロジェクト
+- [Hono](https://hono.dev): Fast and lightweight web framework
+- [React](https://react.dev): Declarative library for building UIs
+- [Next.js](https://nextjs.org): Full-stack web application framework
+- [Auth Itinerary](https://auth.itinerary.eu.org): Project based on secure token specifications
 
-## デザインアセット
+## Design Assets
 
-プロジェクト用ロゴやブランドアセットは以下より取得できます。
+Project logos and brand assets are available below.
 
 ![Logo](https://raw.githubusercontent.com/scratchcore/sauthbase/refs/heads/main/assets/brand/sauthbase/logo-nobg.128x128.webp)
 
-👉 [アセットをダウンロード](https://raw.githubusercontent.com/scratchcore/sauthbase/refs/heads/main/assets/brand/sauthbase.zip)
+👉 [Download Assets](https://raw.githubusercontent.com/scratchcore/sauthbase/refs/heads/main/assets/brand/sauthbase.zip)
 
-## ライセンス
+## License
 
-SAuthBase プロジェクトは、 [Modified MIT License with Trademark and Patent Clauses](https://github.com/scratchcore/sauthbase/blob/main/LICENSE) に基づいてライセンスされます。
+The SAuthBase project is licensed under the [Modified MIT License with Trademark and Patent Clauses](https://github.com/scratchcore/sauthbase/blob/main/LICENSE).
 
 ---
 

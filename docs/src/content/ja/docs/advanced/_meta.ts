@@ -10,9 +10,8 @@ import type { MetaRecord } from "nextra";
  * type MetaRecord = Record<string, MetaRecordValue>
  **/
 const meta: MetaRecord = {
-  sauthbase: "",
-  methods: "メソッド",
-  types: ""
+  sessions: "",
+  troubleshooting: ""
 };
 
 export default meta;

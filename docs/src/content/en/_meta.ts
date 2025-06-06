@@ -61,7 +61,7 @@ const meta: MetaRecord = {
   },
   __: {
     type: "separator",
-    title: "もっと",
+    title: "More",
   },
   "about-link": {
     title: "About SAuthBase",

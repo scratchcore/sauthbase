@@ -1,6 +1,6 @@
 ---
 title: extractUserUnsafe
-description: 暗号化されたトークンから検証なしでユーザー名を取得します。
+description: Retrieves the username from an encrypted token without verification.
 ---
 
 import { OptionTable } from "@/components/_table"
@@ -9,58 +9,58 @@ import { OptionTable } from "@/components/_table"
 
 Type: `extractUserUnsafe(content?: string): APIResult<string>`
 
-`extractUserUnsafe()` は、暗号化されたトークンから復号されたユーザー名を返しますが、HMAC による改ざん検知は行いません。
+`extractUserUnsafe()` returns the decrypted username from an encrypted token, but does not perform HMAC-based tamper detection.
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
 import { sauthbase } from "sauthbase";
 // ---cut---
-const result = sauthbase.use().extractUserUnsafe("暗号化されたトークン");
+const result = sauthbase.use().extractUserUnsafe("encrypted-token");
 if (result.success) {
-  console.log(result.data); // ユーザー名が表示される
+  console.log(result.data); // Username is displayed
 }
 ```
 
-## 概要
+## Overview
 
-- 内部で `decrypt()` を使用してトークンを復号します。
-- セキュリティチェック（HMACによる整合性検証）は行われません。
-- 安全な用途には `extractUserWithVerify()` を推奨します。
+- Internally uses `decrypt()` to decrypt the token.
+- No integrity check (HMAC verification) is performed.
+- For secure usage, use `extractUserWithVerify()` instead.
 
-## 引数
+## Parameters
 
 <OptionTable
 options={[
   [
     "content",
     "string",
-    "暗号化されたトークン"
+    "The encrypted token"
   ]
 ]}
 />
 
-## 戻り値
+## Return Value
 
-- `APIResult<string>`: ユーザー名を含む復号結果
+- `APIResult<string>`: Returns the decrypted username.
 
-## 使用例
+## Example Usage
 
 ```ts filename="TypeScript" showLineNumbers twoslash
 // @noErrors
 import { sauthbase } from "sauthbase";
 // ---cut---
-const token = "暗号化トークン";
+const token = "encrypted-token";
 const result = sauthbase.use().extractUserUnsafe(token);
 
 if (result.success) {
-  console.log("ユーザー名:", result.data);
+  console.log("Username:", result.data);
 } else {
-  console.error("失敗:", result.message);
+  console.error("Failure:", result.message);
 }
 ```
 
-## 注意点
+## Notes
 
-- このメソッドは、改ざんされたトークンをそのまま受け入れてしまう可能性があります。
-- 信頼できないデータに対しては `extractUserWithVerify()` を使用してください。
-- ドキュメント内では `@deprecated` としてマークされており、将来的には非推奨となる可能性があります。
+- This method may accept tampered tokens as valid.
+- Use `extractUserWithVerify()` for untrusted data.
+- Marked as `@deprecated` in the documentation and may be removed in future versions.

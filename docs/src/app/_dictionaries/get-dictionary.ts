@@ -1,19 +1,42 @@
 import "server-only";
 import type { Dictionaries, Dictionary } from "./i18n-config";
 
-// We enumerate all dictionaries here for better linting and TypeScript support
-// We also get the default import for cleaner types
 const dictionaries: Dictionaries = {
   ja: () => import("./ja"),
-  en: () => import("./en"),
+  en: () => import("./en") as any,
 };
 
-export async function getDictionary(locale: string): Promise<Dictionary> {
-  const { default: dictionary } = await (
-    dictionaries[locale] || dictionaries.ja
-  )();
+// ユーティリティ関数: ネストされたオブジェクトを再帰的にマージ
+function deepMerge<T extends Record<string, any>>(
+  target: T,
+  source: Partial<T>
+): T {
+  for (const key in source) {
+    const sourceValue = source[key];
+    const targetValue = target[key];
+    if (
+      sourceValue &&
+      typeof sourceValue === "object" &&
+      !Array.isArray(sourceValue)
+    ) {
+      target[key] = deepMerge(
+        (targetValue ?? {}) as Record<string, unknown>,
+        sourceValue as Record<string, unknown>
+      ) as any;
+    } else if (sourceValue !== undefined) {
+      target[key] = sourceValue;
+    }
+  }
+  return target;
+}
 
-  return dictionary;
+export async function getDictionary(locale: string): Promise<Dictionary> {
+  const { default: defaultDict } = await dictionaries.ja();
+  if (locale === "ja" || !dictionaries[locale]) return defaultDict;
+
+  const { default: overrideDict } = await dictionaries[locale]();
+  console.log(defaultDict)
+  return deepMerge({ ...defaultDict }, overrideDict);
 }
 
 export function getDirection(locale: string): "ltr" | "rtl" {
