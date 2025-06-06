@@ -1,6 +1,8 @@
 name: Run tests and upload coverage
 
-on: push
+on:
+  push:
+  pull_request:
 
 jobs:
   sauthbase-js:
@@ -14,11 +16,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check for changes
-        id: changes
+      - name: Check for changes - Push
+        id: changes-push
+        if: github.event_name != 'pull_request'
+        run: |
+          git fetch origin ${{ github.ref_name }} --depth=1
+          if git diff --quiet origin/${{ github.ref_name }} -- packages/sauthbase-js; then
+            echo "skip=true" >> $GITHUB_ENV
+          fi
+
+      - name: Check for changes - Pull Request
+        id: changes-pullreq
+        if: github.event_name == 'pull_request'
         run: |
           git fetch origin ${{ github.base_ref }} --depth=1
-          if git diff --quiet origin/${{ github.base_ref }} -- packages/sauthbase-js; then
+          if git diff --quiet origin/${{ github.base_ref }}...HEAD -- packages/sauthbase-js; then
             echo "skip=true" >> $GITHUB_ENV
           fi
 
