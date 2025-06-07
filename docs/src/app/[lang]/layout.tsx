@@ -12,6 +12,8 @@ import { IconMessages } from "@tabler/icons-react";
 import { getDocsVersionSpace } from "@/lib/docs-version";
 import { getDictionary, getDirection } from "../_dictionaries/get-dictionary";
 
+import { GoogleAnalytics } from "@next/third-parties/google";
+
 type LayoutProps = Readonly<{
   children: ReactNode;
   params: Promise<{
@@ -40,6 +42,8 @@ export async function generateMetadata({
 }
 
 export default async function RootLayout({ children, params }: LayoutProps) {
+  const gaId = process.env.GA_ID || "";
+
   const { lang } = await params;
   const dictionary = await getDictionary(lang);
   let pageMap = await getPageMap(`/${lang}`);
@@ -110,6 +114,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
       // Suggested by `next-themes` package https://github.com/pacocoursey/next-themes#with-app
       suppressHydrationWarning
     >
+      <GoogleAnalytics gaId={gaId} />
       <Head
       // ... Your additional head options
       >
