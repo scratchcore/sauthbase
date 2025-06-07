@@ -1,23 +1,23 @@
 version: 1
 applications:
-    - docs:
-        frontend:
-            phases:
-                preBuild:
-                    commands: ['npm i', 'npm ci --cache .npm --prefer-offline']
-                build:
-                    commands: 
-                        #サーバーサイドではビルド時に参照するように `.env` ファイルに渡し直す必要がある:  https://docs.aws.amazon.com/amplify/latest/userguide/environment-variables.html#access-env-vars
-                        - echo "GA_ID=$GA_ID" >> .env
-                        - npm run build
-            artifacts:
-                baseDirectory: '.next'
-                files:
-                    - '**/*'
-            cache:
-                paths:
-                    - 'node_modules/**/*'
-                    - '.next/cache/**/*'
-                    - '.npm/**/*'
-            buildPath: docs
-        appRoot: docs
+  - appRoot: docs
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm i
+            - npm ci --cache .npm --prefer-offline
+        build:
+          commands:
+            - echo "GA_ID=$GA_ID" >> .env
+            - npm run build
+      artifacts:
+        baseDirectory: ".next"
+        files:
+          - "**/*"
+      cache:
+        paths:
+          - "node_modules/**/*"
+          - ".next/cache/**/*"
+          - ".npm/**/*"
+      buildPath: docs
