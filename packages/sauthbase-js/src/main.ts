@@ -411,7 +411,7 @@ export class sauthbase {
     try {
       // ユーザーセッションの検証
       const response = await fetcher(
-        `https://auth.itinerary.eu.org/api/auth/verifySession?privateCode=${content}`
+        `https://auth.itinerary.eu.org/api/auth/verifyToken?privateCode=${content}`
       );
       const data: verifySessionProps = response.data;
       if (data.valid === true && data.redirect === this.redirect_url) {

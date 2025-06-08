@@ -11,7 +11,6 @@ export const generateStaticParams = generateStaticParamsFor("mdxPath");
 export async function generateMetadata(props: PageProps) {
   const params = await props.params;
   const { metadata } = await importPage(params.mdxPath, params.lang);
-
   const header = await headers();
   const pathname = header.get("x-pathname") || "";
   const isLangRoot =

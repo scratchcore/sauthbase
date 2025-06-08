@@ -35,7 +35,6 @@ export async function getDictionary(locale: string): Promise<Dictionary> {
   if (locale === "ja" || !dictionaries[locale]) return defaultDict;
 
   const { default: overrideDict } = await dictionaries[locale]();
-  console.log(defaultDict)
   return deepMerge({ ...defaultDict }, overrideDict);
 }
 

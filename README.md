@@ -10,7 +10,7 @@
   <a href="https://github.com/scratchcore/sauthbase/blob/main/LICENSE" target="_blank">
     <img alt="license" src="https://img.shields.io/npm/l/sauthbase?style=flat-square"/>
   </a>
-  <a>
+  <a href="https://www.npmjs.com/package/sauthbase" target="_blank">
     <img alt="version/latest" src="https://img.shields.io/npm/v/sauthbase/latest?style=flat-square"/>
   </a>
   <a>

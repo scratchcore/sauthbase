@@ -4,6 +4,7 @@ import docsConfig from "../../../docs.config";
 
 import { ReactNode } from "react";
 import { Metadata } from "next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { getPageMap } from "nextra/page-map";
 import { Banner, Head } from "nextra/components";
 import { Footer, LastUpdated, Layout, Navbar } from "nextra-theme-docs";
@@ -12,7 +13,10 @@ import { IconMessages } from "@tabler/icons-react";
 import { getDocsVersionSpace } from "@/lib/docs-version";
 import { getDictionary, getDirection } from "../_dictionaries/get-dictionary";
 
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { SabProvider } from "@/components/sab/provider";
+import { Toaster } from "@/components/ui/sonner";
+
+import BprogressProviders from "@/provider/bprogress";
 
 type LayoutProps = Readonly<{
   children: ReactNode;
@@ -120,48 +124,55 @@ export default async function RootLayout({ children, params }: LayoutProps) {
       >
         {/* Your additional tags should be passed as `children` of `<Head>` element */}
       </Head>
-      <body cz-shortcut-listen="false">
-        <Layout
-          i18n={[
-            { locale: "ja", name: "日本語" },
-            { locale: "en", name: "English" },
-          ]}
-          banner={banner}
-          navbar={navbar}
-          footer={footer}
-          pageMap={pageMap}
-          docsRepositoryBase={`https://github.com/${docsConfig.github.name}/${
-            docsConfig.github.repo
-          }/tree${getDocsVersionSpace("/")}/docs`}
-          feedback={{
-            content: dictionary.feedback.content,
-          }}
-          editLink={dictionary.editLink}
-          sidebar={{
-            autoCollapse: true,
-            toggleButton: true,
-            defaultMenuCollapseLevel: 1,
-          }}
-          navigation={{
-            prev: true,
-            next: true,
-          }}
-          toc={{
-            backToTop: dictionary.backToTop,
-            extraContent: true,
-            title: dictionary.toc.title,
-          }}
-          themeSwitch={{
-            dark: dictionary.dark,
-            light: dictionary.light,
-            system: dictionary.system,
-          }}
-          lastUpdated={
-            <LastUpdated locale={lang}>{dictionary.lastUpdated}</LastUpdated>
-          }
-        >
-          {children}
-        </Layout>
+      <body className="relative" cz-shortcut-listen="false">
+        <BprogressProviders>
+          <SabProvider>
+            <Toaster position="top-center" />
+            <Layout
+              i18n={[
+                { locale: "ja", name: "日本語" },
+                { locale: "en", name: "English" },
+              ]}
+              banner={banner}
+              navbar={navbar}
+              footer={footer}
+              pageMap={pageMap}
+              docsRepositoryBase={`https://github.com/${
+                docsConfig.github.name
+              }/${docsConfig.github.repo}/tree${getDocsVersionSpace("/")}/docs`}
+              feedback={{
+                content: dictionary.feedback.content,
+              }}
+              editLink={dictionary.editLink}
+              sidebar={{
+                autoCollapse: true,
+                toggleButton: true,
+                defaultMenuCollapseLevel: 1,
+              }}
+              navigation={{
+                prev: true,
+                next: true,
+              }}
+              toc={{
+                backToTop: dictionary.backToTop,
+                extraContent: true,
+                title: dictionary.toc.title,
+              }}
+              themeSwitch={{
+                dark: dictionary.dark,
+                light: dictionary.light,
+                system: dictionary.system,
+              }}
+              lastUpdated={
+                <LastUpdated locale={lang}>
+                  {dictionary.lastUpdated}
+                </LastUpdated>
+              }
+            >
+              {children}
+            </Layout>
+          </SabProvider>
+        </BprogressProviders>
       </body>
     </html>
   );

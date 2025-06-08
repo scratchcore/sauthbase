@@ -5,7 +5,15 @@
 ### 特定のバージョンのタグを変更する
 
 ```sh
-npm dist-tag add sauthbase@<version> <tag>
+npm dist-tag add <package>@<version> <tag>
+```
+
+## `npm deprecate`
+
+特定のバージョンを非推奨にする
+
+```sh
+npm deprecate <package>@<version> "<description>"
 ```
 
 ## `npm run generate-brand-assets`

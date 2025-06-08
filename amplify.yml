@@ -10,6 +10,8 @@ applications:
         build:
           commands:
             - echo "GA_ID=$GA_ID" >> .env
+            - echo "SITE_URL=$SITE_URL" >> .env
+            - echo "SAUTHBASE_SECRET_KEY=$SAUTHBASE_SECRET_KEY" >> .env
             - npm run build
       artifacts:
         baseDirectory: ".next"
