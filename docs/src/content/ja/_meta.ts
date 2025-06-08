@@ -36,6 +36,8 @@ const meta: MetaRecord = {
     type: "page",
     title: "ライセンス",
     theme: {
+      typesetting: "article",
+      sidebar: false,
       toc: false,
     },
   },
