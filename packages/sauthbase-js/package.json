@@ -1,6 +1,6 @@
 {
   "name": "sauthbase",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-rc.1",
   "description": "Scratch Auth Base SDK（SAuthBase）は、Scratch プロジェクトやサービスにおいて、認証機能を安全かつ簡潔に導入するためのモジュール型 SDK です。セッションの検証、ユーザー識別の暗号化などを一貫して提供し、開発者の導入負担を軽減します。",
   "type": "module",
   "main": "dist/cjs/main.js",

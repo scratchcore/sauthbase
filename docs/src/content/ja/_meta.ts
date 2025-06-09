@@ -30,6 +30,7 @@ const meta: MetaRecord = {
     theme: {
       typesetting: "article",
       sidebar: false,
+      toc: false,
     },
   },
   license: {

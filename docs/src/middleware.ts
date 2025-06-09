@@ -11,11 +11,10 @@ export function middleware(request: NextRequest) {
   // カスタムヘッダーを追加する処理
   response.headers.set("x-pathname", request.nextUrl.pathname);
 
-
   return response;
 }
 
 export const config = {
   // Match only internationalized pathnames
-  matcher: ["/((?!test|api|_next|.*\\..*).*)"],
+  matcher: ["/((?!api|_next|.*\\..*).*)"],
 };

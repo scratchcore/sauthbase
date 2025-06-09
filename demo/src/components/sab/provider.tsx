@@ -23,11 +23,34 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-export const sabc = createContext<null | userInfoProps>(null);
+export const sabc = createContext<{
+  user: null | userInfoProps;
+  loaded: boolean;
+}>({
+  user: null,
+  loaded: false,
+});
+
+export const logout = () => {
+  const ac = async () => {
+    await serverLogout();
+    window.location.reload();
+  };
+  ac();
+};
 
 export function SabProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const [user, setUser] = useState<null | userInfoProps>(null);
+  const [loaded, _setLoaded] = useState<{ [key: string]: boolean }>({
+    user: false,
+  });
+  const setLoaded = (val: { [key: string]: boolean }) => {
+    _setLoaded({
+      ...loaded,
+      ...val,
+    });
+  };
   const [loading, _setLoading] = useState<{ [key: string]: boolean }>({
     user: false,
     logout: false,
@@ -63,12 +86,10 @@ export function SabProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // 初期ロード
   useEffect(() => {
     const fetchUser = async () => {
-      setLoading({ user: true });
-
       try {
+        setLoading({ user: true });
         const resultPromise = reload().then((result) => {
           if (result.success === true) {
             return result.data;
@@ -98,26 +119,26 @@ export function SabProvider({ children }: { children: ReactNode }) {
         });
       } finally {
         setLoading({ user: false });
+        setLoaded({ user: true });
       }
     };
 
-    fetchUser();
+    const handleReloadUser = () => {
+      fetchUser();
+    };
+
+    handleReloadUser()
+    return () => {
+      window.removeEventListener("sauthbase:reload-user", handleReloadUser);
+    };
   }, []);
 
   const login = () => {
     router.push("/api/login");
   };
 
-  const logout = () => {
-    const ac = async () => {
-      await serverLogout();
-      window.location.reload();
-    };
-    ac();
-  };
-
   return (
-    <sabc.Provider value={user}>
+    <sabc.Provider value={{ user: user, loaded: loaded.user }}>
       <div className="fixed z-[9000] bottom-[20px] right-[20px]">
         {loading.user ? (
           <div className="bg-neutral-100 dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 p-1 rounded-full animate-pulse">
@@ -166,7 +187,8 @@ export function SabProvider({ children }: { children: ReactNode }) {
               type="button"
               variant="destructive"
               onClick={() => {
-                setDialog({ logout: false }), logout();
+                setDialog({ logout: false });
+                logout();
               }}
             >
               ログアウトする

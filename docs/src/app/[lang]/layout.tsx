@@ -17,6 +17,7 @@ import { SabProvider } from "@/components/sab/provider";
 import { Toaster } from "@/components/ui/sonner";
 
 import BprogressProviders from "@/provider/bprogress";
+import { Folder, PageMapItem } from "nextra";
 
 type LayoutProps = Readonly<{
   children: ReactNode;
@@ -52,15 +53,9 @@ export default async function RootLayout({ children, params }: LayoutProps) {
   const dictionary = await getDictionary(lang);
   let pageMap = await getPageMap(`/${lang}`);
 
-  if (lang === "ja") {
-    pageMap = [
-      ...pageMap,
-      {
-        name: "remote",
-        route: "/remote",
-      },
-    ];
-  }
+  pageMap = pageMap.filter(
+    (m): m is Folder => !("route" in m && m.route === "/api")
+  );
 
   const banner = (
     <Banner

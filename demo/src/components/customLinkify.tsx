@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import Linkify from "linkify-react";
-import { cn } from "@/libs/utils";
+import { cn } from "@/lib/utils";
 
 interface optionsType {
   className?: string;

@@ -1,8 +1,11 @@
-import { redirect } from "next/navigation";
-import sauthbase from "@/libs/sauthbase";
+"use server";
 
-export default function page() {
-  const sab = sauthbase.use();
+import { redirect } from "next/navigation";
+import sauthbase from "@/components/sab/sauth";
+
+const sab = sauthbase.use();
+
+export default async function page() {
   const res = sab.generationAuthPageUrl();
   if (res.success) {
     redirect(res.data);

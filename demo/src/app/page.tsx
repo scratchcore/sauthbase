@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import Link from "next/link";
-import { deleteCookie } from "cookies-next/client";
+import { useRouter } from "next/navigation";
 import {
   IconCalendar,
   IconLoader2,
@@ -11,40 +11,14 @@ import {
   IconRosetteDiscountCheck,
   IconWorldPin,
 } from "@tabler/icons-react";
-import { userInfoProps } from "sauthbase/types";
-import { getUser, sauthbaseGetUser } from "@/libs/get-user";
-import customLinkify from "@/components/customLinkify";
-
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import customLinkify from "@/components/customLinkify";
+import { logout, sabc } from "@/components/sab/provider";
 
 export default function Home() {
   const router = useRouter();
-  const [loaded, setLoaded] = useState<boolean>(false);
-  const [user, setUser] = useState<userInfoProps | undefined>(undefined);
-
-  const up = async () => {
-    const _user = await sauthbaseGetUser();
-    if (_user) {
-      const userInfo = await getUser(_user);
-      if (userInfo.success) {
-        setUser(userInfo.data);
-      }
-    }
-    setLoaded(true);
-  };
-
-  useEffect(() => {
-    up();
-  }, []);
-
-  const logout = () => {
-    deleteCookie("_sauth-token");
-    if (window) {
-      window.location.reload();
-    }
-  };
+  const { user, loaded } = useContext(sabc);
 
   function Content() {
     if (user) {
@@ -129,7 +103,7 @@ export default function Home() {
         <Button
           className="cursor-pointer hover:opacity-80"
           variant="outline"
-          onClick={() => router.push("/login")}
+          onClick={() => router.push("/api/login")}
         >
           <IconLogin /> ログイン
         </Button>
