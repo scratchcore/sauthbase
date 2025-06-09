@@ -22,7 +22,7 @@ import type { APIResult, userInfoProps } from "./types.ts";
  * @copyright [toakiryu](https://github.com/toakiryu)
  */
 export const getScratchUserInfo = async (
-  username?: null | undefined | string
+  username?: string | undefined
 ): Promise<APIResult<userInfoProps>> => {
   if (!username) {
     return {

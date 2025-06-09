@@ -22,7 +22,7 @@ import { securityCheck } from "./security";
  * @copyright [toakiryu](https://github.com/toakiryu)
  */
 export class sauthbase {
-  private static instance: sauthbase | null = null;
+  private static instance: sauthbase | undefined = undefined;
 
   /**
    * このコンストラクタは、`sauthbase` のインスタンスを作成します。
@@ -302,7 +302,7 @@ export class sauthbase {
    * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
    * @copyright [toakiryu](https://github.com/toakiryu)
    */
-  generationAuthPageUrl(title?: string): APIResult<string> {
+  generationAuthPageUrl(title?: string | undefined): APIResult<string> {
     const _title = title || "ScratchCore";
     const redirectLocation = btoa(this.redirect_url);
     return {
@@ -334,7 +334,7 @@ export class sauthbase {
    * @copyright [toakiryu](https://github.com/toakiryu)
    */
   async generateEncryptedToken(
-    content?: null | undefined | string
+    content?: string | undefined
   ): Promise<APIResult<string>> {
     if (!content) {
       return {
@@ -397,10 +397,10 @@ export class sauthbase {
    * @copyright [toakiryu](https://github.com/toakiryu)
    */
   async verifySession(
-    content?: string | undefined | null,
+    content?: string | undefined,
     fetcher: (url: string) => Promise<{ data: verifySessionProps }> = axios
   ): Promise<APIResult<verifySessionResponse>> {
-    if (!content || content === "") {
+    if (!content) {
       return {
         status: 400,
         success: false,
@@ -470,7 +470,7 @@ export class sauthbase {
    * @copyright [toakiryu](https://github.com/toakiryu)
    */
   async extractUserWithVerify(
-    content?: string | undefined | null
+    content?: string | undefined
   ): Promise<APIResult<string>> {
     if (!content) {
       return {
@@ -542,7 +542,7 @@ export class sauthbase {
    * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
    * @copyright [toakiryu](https://github.com/toakiryu)
    */
-  extractUserUnsafe(content?: string | undefined | null): APIResult<string> {
+  extractUserUnsafe(content?: string | undefined): APIResult<string> {
     if (!content) {
       return {
         status: 400,
@@ -591,7 +591,18 @@ export class sauthbase {
    * @see [source](https://github.com/scratchcore/sauthbase/blob/main/packages/sauthbase-js/src/main.ts)
    * @copyright [toakiryu](https://github.com/toakiryu)
    */
-  async getUser(username: string): Promise<APIResult<userInfoProps>> {
+  async getUser(
+    username?: string | undefined
+  ): Promise<APIResult<userInfoProps>> {
+    if (!username) {
+      return {
+        status: 400,
+        success: false,
+        code: "ERROR/ARGUMENT_REQUIRED_USERNAME",
+        message:
+          "ユーザー名が指定されていません。引数にユーザー名を渡してください。",
+      };
+    }
     const response = await getScratchUserInfo(username);
     if (response.success) {
       return {

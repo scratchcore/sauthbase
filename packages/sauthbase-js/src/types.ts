@@ -19,8 +19,8 @@ export interface sauthbaseOptions {
 
 export interface verifySessionProps {
   valid: boolean;
-  username: null | string;
-  redirect: null | string;
+  username: undefined | string;
+  redirect: undefined | string;
 }
 
 export interface verifySessionResponse {
