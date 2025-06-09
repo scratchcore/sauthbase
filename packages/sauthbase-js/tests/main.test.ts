@@ -338,6 +338,11 @@ describe("sauthbase instance methods", () => {
       const result = await sab.getUser("scratchteam");
       expect(result.success).toBe(true);
     });
+    it("ERROR/ARGUMENT_REQUIRED_USERNAME", async () => {
+      const result = await sab.getUser();
+      expect(result.success).toBe(false);
+      expect(result.code).toBe("ERROR/ARGUMENT_REQUIRED_USERNAME");
+    });
     it("ERROR/USER_NOT_FOUND", async () => {
       const result = await sab.getUser("a");
       expect(result.success).toBe(false);

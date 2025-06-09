@@ -42,7 +42,10 @@ jobs:
 
       - name: Install dependencies
         if: env.skip != 'true'
-        run: npm install
+        run: |
+          npm install
+          echo "SITE_URL=http://localhost:3000" >> demo/.env.local
+          echo "SAUTHBASE_SECRET_KEY=b48233b530a77252627b22a4ba084a96be92e4fba656a58c3e8db3b1e520fe0d" >> demo/.env.local
 
       - name: Run build
         if: env.skip != 'true'
