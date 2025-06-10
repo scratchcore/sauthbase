@@ -3,6 +3,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     passWithNoTests: true,
+    testTimeout: 10000,
     coverage: {
       reporter: ["text", "lcov", "html"], // ← lcov が重要
       include: ["src"], // <- 対象ファイル
