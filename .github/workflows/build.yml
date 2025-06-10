@@ -43,6 +43,12 @@ jobs:
       - name: Override skip with manual flag
         if: github.event_name == 'workflow_dispatch' && inputs.force_run == 'true'
         run: echo "skip=false" >> $GITHUB_ENV
+    
+      - name: Set up env
+        if: env.skip != 'true'
+        run: |
+          echo "SITE_URL=http://localhost:3000" >> .env.local
+          echo "SAUTHBASE_SECRET_KEY=b48233b530a77252627b22a4ba084a96be92e4fba656a58c3e8db3b1e520fe0d" >> .env.local
 
       - name: Set up Node
         if: env.skip != 'true'
@@ -54,8 +60,6 @@ jobs:
         if: env.skip != 'true'
         run: |
           npm install
-          echo "SITE_URL=http://localhost:3000" >> demo/.env.local
-          echo "SAUTHBASE_SECRET_KEY=b48233b530a77252627b22a4ba084a96be92e4fba656a58c3e8db3b1e520fe0d" >> demo/.env.local
 
       - name: Run build
         if: env.skip != 'true'
