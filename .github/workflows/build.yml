@@ -3,6 +3,12 @@ name: Build Tests
 on:
   push:
   pull_request:
+  workflow_dispatch:
+    inputs:
+      force_run:
+        description: 'Force run even if no changes are detected'
+        required: false
+        default: 'false'
 
 jobs:
   demo:
@@ -18,7 +24,7 @@ jobs:
 
       - name: Check for changes - Push
         id: changes-push
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && github.event_name != 'workflow_dispatch'
         run: |
           git fetch origin ${{ github.ref_name }} --depth=1
           if git diff --quiet origin/${{ github.ref_name }} -- demo; then
@@ -33,6 +39,10 @@ jobs:
           if git diff --quiet origin/${{ github.base_ref }}...HEAD -- demo; then
             echo "skip=true" >> $GITHUB_ENV
           fi
+
+      - name: Override skip with manual flag
+        if: github.event_name == 'workflow_dispatch' && inputs.force_run == 'true'
+        run: echo "skip=false" >> $GITHUB_ENV
 
       - name: Set up Node
         if: env.skip != 'true'
