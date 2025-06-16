@@ -1,10 +1,8 @@
 "use server";
 
 import { cookies } from "next/headers";
-import sauthbase from "@/components/sab/sauth";
+import sabInstance from "@/components/sab/sauth";
 import { APIResult, userInfoProps } from "sauthbase/types";
-
-const sab = sauthbase.use();
 
 const tokenName = "sauthbase-token";
 
@@ -16,6 +14,7 @@ export const serverLogout = async () => {
 };
 
 export const serverGetUser = async (): Promise<APIResult<string>> => {
+  const sab = await sabInstance();
   const cookieStore = await cookies();
   const is = cookieStore.has(tokenName);
   const token = is ? cookieStore.get(tokenName)?.value : "";
@@ -29,6 +28,7 @@ export const serverGetUser = async (): Promise<APIResult<string>> => {
 export const serverGetUserInfo = async (
   username: null | string
 ): Promise<APIResult<userInfoProps>> => {
+  const sab = await sabInstance();
   if (!username)
     return {
       code: "",

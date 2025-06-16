@@ -1,14 +1,13 @@
 "use server";
 
 import { cookies } from "next/headers";
-import sauthbase from "@/components/sab/sauth";
+import sabInstance from "@/components/sab/sauth";
 import { APIResult } from "sauthbase/types";
-
-const sab = sauthbase.use();
 
 export const verifySession = async (
   session?: string
 ): Promise<APIResult<null>> => {
+  const sab = await sabInstance();
   const cookieStore = await cookies();
   const res = await sab.verifySession(session);
   if (res.success === true) {

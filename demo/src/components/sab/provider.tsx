@@ -127,7 +127,7 @@ export function SabProvider({ children }: { children: ReactNode }) {
       fetchUser();
     };
 
-    handleReloadUser()
+    handleReloadUser();
     return () => {
       window.removeEventListener("sauthbase:reload-user", handleReloadUser);
     };
